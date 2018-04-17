@@ -1,4 +1,4 @@
-package main.java.jp.co.goalist.hello;
+package jp.co.goalist.hello;
 
 public class Hello {
 
