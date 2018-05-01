@@ -2,7 +2,7 @@ package jp.co.goalist.fizzbuzz;
 
 public class Question2 {
     public static void main(String[] args) {
-        
+
         String aho = "アホか否か？";
 
         for (int i = 1; i < 31; i++) {
@@ -12,11 +12,11 @@ public class Question2 {
             }else if (numStr.contains("3")) {
                 aho ="アホ";
             }else {
-                aho ="　　　";
+                aho = "";
             }
             System.out.println(i + "です。" + aho);
         }
-        
+
     }
 
 }

@@ -10,7 +10,7 @@ public class Question1 {
             if (i%3==0) {
                 aho = "アホ";
             }else {
-                aho ="　　　";
+                aho = "";
             }
             System.out.println(i + "です。" + aho);
         }
