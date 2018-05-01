@@ -15,6 +15,5 @@ public class Question1 {
             System.out.println(i + "です。" + aho);
         }
 
-        System.out.println(10%3);
         }
 }
