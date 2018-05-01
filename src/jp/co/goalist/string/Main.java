@@ -27,7 +27,7 @@ public class Main {
      */
     private static void printAnswer2(String str) {
         System.out.println("2. 渡された文字列の3～6文字目の文字を出力する");
-        System.out.println(str.substring(2, 5));
+        System.out.println(str.substring(2, 6));
         System.out.println();
     }
 
