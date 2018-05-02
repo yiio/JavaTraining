@@ -12,10 +12,11 @@ public class Question4 {
         goalistAll[0][5] = goalistAll[0][5].replaceAll("増田1", "増田亜");
         goalistAll[0][6] = goalistAll[0][6].replaceAll("増田2", "増田秀");
 
-        for (int i = 0; i < goalistAll.length; i++)
-            for (int j = 0; j < goalistAll[i].length; j++)
+        for (int i = 0; i < goalistAll.length; i++) {
+            for (int j = 0; j < goalistAll[i].length; j++) {
 
                 System.out.println(goalistAll[i][j]);
-
+            }
+        }
     }
 }

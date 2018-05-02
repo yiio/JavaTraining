@@ -34,13 +34,14 @@ public class Question7 {
         };
         int aTeam =0;
         int bTeam =0;
-        for (int i = 0; i < pointArys.length; i++)
+        for (int i = 0; i < pointArys.length; i++) {
             if ((pointArys[i][0] == "山田")||(pointArys[i][0] == "田中")) {
                 aTeam += Integer.parseInt(pointArys[i][1]);
 
             }else {
                 bTeam += Integer.parseInt(pointArys[i][1]);
-    }
+            }
+        }
         System.out.println("Aチームの合計得点は" + aTeam + "点です");
         System.out.println("Bチームの合計得点は" + bTeam + "点です");
     }
