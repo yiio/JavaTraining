@@ -39,27 +39,26 @@ public class Question7 {
 
         // Mapの初期化
         Map<String,String> teamMap = new HashMap<>(); // 名前,チーム名
-        Map<String,Integer> pointMap = new HashMap<>(); // チーム名,得点
+        Map<String,Integer> resultMap = new HashMap<>(); // チーム名,得点
 
         // teamMapに名前,チーム名を追加
         for(int i = 0; i < teamArys.length; i++){
             teamMap.put( teamArys[i][0], teamArys[i][1]);
 
         // pointMapに書いてないチーム名が出てき場合、pointMapにチーム名,得点(0点)を追加
-            if(!pointMap.containsKey(teamArys[i][1]))
-                pointMap.put(teamArys[i][1],0);
+            if(!resultMap.containsKey(teamArys[i][1])){
+                resultMap.put(teamArys[i][1],0);
+            }
         }
 
         // 名前に対応するチーム名、現在のチームの得点を取得。名前に対応した得点を加えてpointMapに上書き(?)
         for(int x=0;x<pointArys.length;x++){
-            pointMap.put(teamMap.get(pointArys[x][0]), pointMap.get(teamMap.get(pointArys[x][0])) +  Integer.parseInt(pointArys[x][1]));
+            resultMap.put(teamMap.get(pointArys[x][0]), resultMap.get(teamMap.get(pointArys[x][0])) +  Integer.parseInt(pointArys[x][1]));
         }
 
         // 拡張for…すべての要素に対して順番に処理を行う  keySet…Mapに含まれるキーのセットを返す
-        for(String team : pointMap.keySet()){
-            System.out.println(team+"の合計得点は、"+pointMap.get(team)+"点です。");
+        for(String team : resultMap.keySet()){
+            System.out.println(team+"の合計得点は、"+resultMap.get(team)+"点です。");
         }
-
     }
-
 }
