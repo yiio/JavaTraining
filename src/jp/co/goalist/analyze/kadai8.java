@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.*;
 import java.nio.file.*;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+//import java.util.Calendar;
+//import java.util.GregorianCalendar;
 
 public class kadai8 {
 
@@ -74,21 +77,38 @@ public class kadai8 {
             System.out.println(date+" , "+sum+"円");
         }
         
+        
         Path filePath = Paths.get("../../resources/kadai1answer.csv"); // 書き込み対象ファイルの場所を指定
         //Files.deleteIfExists(filePath); // 既に存在してたら削除
         //Files.createFile(filePath); // ファイル作成
         try (BufferedWriter bw = Files.newBufferedWriter(filePath)) {
             bw.write("販売日,売上総額");
             bw.newLine();
-            for(String date : dateItemCount.keySet()){
-                int sum=0;
-                
-                for(String code : dateItemCount.get(date)){
-                    sum += Integer.parseInt(codePrice.get(code));
+            
+            for(int i=0;i<2;i++){
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.MONTH, i);
+                cal.set(Calendar.YEAR, 2017);
+                int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+                for (int j = 0; j < maxDay; j++) {
+                    cal.set(Calendar.DAY_OF_MONTH, j + 1);
+                    String date = df.format(cal.getTime());
+                    if(dateItemCount.containsKey(date)){
+                        int sum = 0;
+                        for(String code : dateItemCount.get(date)){
+                            sum += Integer.parseInt(codePrice.get(code));
+                        }
+                        bw.write("\""+date+"\",\""+sum+"円\"");
+                        
+                    }else{
+                        bw.write("\""+date+"\",\"0円\"");
+                    }
+                    bw.newLine();
                 }
-                bw.write(date+","+sum+"円");
-                bw.newLine();
+                
             }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
