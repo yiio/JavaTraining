@@ -26,23 +26,23 @@ public class Question1 {
             }
 
         }
-        
-        
+
         caluculation();
 
     }
 
+    // 課題2－2
     public static void caluculation() {
         int[] numAry = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         String number = "";
-        
-        for (int i = 0; i < numAry.length; i ++) {
-            for (int j = 0; j < numAry.length; j ++) {
+
+        for (int i = 0; i < numAry.length; i++) {
+            for (int j = 0; j < numAry.length; j++) {
                 number += String.valueOf(numAry[i] * numAry[j]);
-                
             }
+
             System.out.println(number);
-            
+
             number = "";
         }
     }
