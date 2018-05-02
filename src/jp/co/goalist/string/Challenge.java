@@ -92,7 +92,7 @@ public class Challenge {
     
     
     
-    //https://blogs.yahoo.co.jp/dk521123/36751924.html よりほぼコピー
+    //https://blogs.yahoo.co.jp/dk521123/36751924.html よりコピー
     /**
      * 漢数字（正の整数）（をアラビア数字(int型)に変換する
      * @param targetValue 対象値（漢字・正の整数）
