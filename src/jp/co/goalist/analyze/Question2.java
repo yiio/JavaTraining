@@ -19,11 +19,8 @@ public class Question2 {
 
             while ((line = br.readLine()) != null) { // ファイルを1行ずつ読み込み、結果がnull以外ならばwhileループ内の処理を行う
                 System.out.println(line); // 1行ずつ出力する
-
                 String[] cols = line.split(",");
-
                 mathScore.put(cols[0], cols[1]);
-
             }
 
             mathScore.remove("氏名");
