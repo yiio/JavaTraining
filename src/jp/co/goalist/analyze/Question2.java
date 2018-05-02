@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Question2 {
     public static void main(String[] args) {
-        Map<String,Integer> scoreMap = new HashMap<>(); // Map初期化
+        Map<String,Integer> scoreMap = new HashMap<>();
         Path filePath = Paths.get("C:\\TechTraining\\resources\\testResult.csv");
 
         try (BufferedReader br = Files.newBufferedReader(filePath)){
@@ -31,6 +31,6 @@ public class Question2 {
             }
         }
 
-        System.out.println("数学の最高得点は"+mathMax+"点です。");
+        System.out.println("数学の最高得点は" + mathMax + "点です。");
     }
 }
