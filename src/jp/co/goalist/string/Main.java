@@ -7,10 +7,10 @@ public class Main {
         String str = "個と組織をGOALへ導くプロフェッショナルチーム";
 
         printStrLength(str);
-            Question1(str);
-            Question2(str);
-            Question3(str);
-            Question4(str);
+        Question1(str);
+        Question2(str);
+        Question3(str);
+        Question4(str);
     }
 
     private static void printStrLength(String str) {
