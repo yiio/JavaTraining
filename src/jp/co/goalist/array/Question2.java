@@ -13,7 +13,7 @@ public class Question2 {
                 System.out.print(numbers1[i] * numbers2[j] + " ");
 
             }
-            System.out.println(" ");
+            System.out.println();
         }
 
     }
