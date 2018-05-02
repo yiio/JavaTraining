@@ -51,7 +51,9 @@ public class kadai4 {
         }
         
         for(int x=0;x<subjectList.size();x++){
-            System.out.println(subjectList.get(x)+"の平均点は、"+((double)sumList[x]/seisekiMap.size())+"点です。");
+            System.out.println(subjectList.get(x)+"の平均点は、"
+                               +String.format("%.2f", (double)sumList[x]/seisekiMap.size())
+                               +"点です。");
         }
         
     }
