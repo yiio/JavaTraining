@@ -11,7 +11,7 @@ public class Kadai6 {
         };
         
         
-        //各行の要素数を値に持つリストを用意
+        //各行の要素数を値に持つ配列を用意
         //ループが一つ進む毎に一つをカウントに加え、その値と上記のリストとによって表示する文字列を判別する
         int[] maxlist = new int[words.length];
         int[] positions = new int[words.length];
@@ -34,7 +34,7 @@ public class Kadai6 {
         
     }
     
-    public static void checkAndArrangeArray(final int[] target, final int[] base){
+    public static void checkAndArrangeArray(int[] target, int[] base){
         boolean flag = true;
         while(flag){
             flag = false;
