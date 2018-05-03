@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 //import java.util.Calendar;
 //import java.util.GregorianCalendar;
 
-public class kadai8 {
+public class Kadai8 {
 
     
     public static void main(String[] args) {
@@ -16,8 +16,8 @@ public class kadai8 {
         Path salesListPath = Paths.get("../../resources/salesList.csv");
         Path salesItemPath = Paths.get("../../resources/salesItem.csv");
         
-        Map<String,String> codeItemName = new HashMap<>();
-        Map<String,String> codePrice = new HashMap<>();
+        Map<String, String> codeItemName = new HashMap<>();
+        Map<String, String> codePrice = new HashMap<>();
         
         try (BufferedReader br = Files.newBufferedReader(salesItemPath)) {
             
@@ -29,8 +29,8 @@ public class kadai8 {
                 
                 String[] elem = line.split(",");
                 
-                codeItemName.put(elem[0],elem[1]);
-                codePrice.put(elem[0],elem[2]);
+                codeItemName.put(elem[0], elem[1]);
+                codePrice.put(elem[0], elem[2]);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,12 +52,12 @@ public class kadai8 {
                     List<String> list = new ArrayList<>();
                     //超絶頭が悪い
                     //date -> List:[Item][Item][Item][Item]...
-                    for(int i=0;i<Integer.parseInt(elem[2]);i++){
+                    for(int i = 0; i < Integer.parseInt(elem[2]); i++){
                         list.add(elem[1]);
                     }
-                    dateItemCount.put(elem[0],list);
+                    dateItemCount.put(elem[0], list);
                 }else{
-                    for(int i=0;i<Integer.parseInt(elem[2]);i++){
+                    for(int i = 0; i < Integer.parseInt(elem[2]); i++){
                         dateItemCount.get(elem[0]).add(elem[1]);
                     }
                 }
@@ -67,17 +67,6 @@ public class kadai8 {
             e.printStackTrace();
         }
         
-        //check
-        for(String date : dateItemCount.keySet()){
-            int sum=0;
-            
-            for(String code : dateItemCount.get(date)){
-                sum += Integer.parseInt(codePrice.get(code));
-            }
-            System.out.println(date+" , "+sum+"円");
-        }
-        
-        
         Path filePath = Paths.get("../../resources/kadai1answer.csv"); // 書き込み対象ファイルの場所を指定
         //Files.deleteIfExists(filePath); // 既に存在してたら削除
         //Files.createFile(filePath); // ファイル作成
@@ -85,9 +74,9 @@ public class kadai8 {
             bw.write("販売日,売上総額");
             bw.newLine();
             
-            for(int i=0;i<2;i++){
+            for(int month = 0; month < 2; month++){
                 Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.MONTH, i);
+                cal.set(Calendar.MONTH, month);
                 cal.set(Calendar.YEAR, 2017);
                 int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
                 SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
@@ -99,14 +88,14 @@ public class kadai8 {
                         for(String code : dateItemCount.get(date)){
                             sum += Integer.parseInt(codePrice.get(code));
                         }
-                        bw.write("\""+date+"\",\""+sum+"円\"");
-                        
+                        bw.write("\"" + date + "\",\"" + sum + "円\"");
+                        System.out.println("\"" + date + "\",\"" + sum + "円\"");
                     }else{
-                        bw.write("\""+date+"\",\"0円\"");
+                        bw.write("\"" + date + "\",\"0円\"");
+                        System.out.println("\"" + date + "\",\"0円\"");
                     }
                     bw.newLine();
                 }
-                
             }
             
         } catch (IOException e) {

@@ -3,7 +3,7 @@ package jp.co.goalist.array;
 import java.util.Map;
 import java.util.HashMap;
 
-public class kadai8 {
+public class Kadai8 {
 
     public static void main(String[] args) {
         // 名前とチームの配列
@@ -37,18 +37,19 @@ public class kadai8 {
         Map<String,String> teamMap = new HashMap<>();//name , team
         Map<String,Integer> pointMap = new HashMap<>();//team , point
         
-        for(int x=0;x<teamArys.length;x++){
-            teamMap.put(teamArys[x][0],teamArys[x][1]);
-            if(!pointMap.containsKey(teamArys[x][1]))
-                pointMap.put(teamArys[x][1],0);
+        for(String[] nameTeam : teamArys){
+            teamMap.put(nameTeam[0], nameTeam[1]);
+            if(!pointMap.containsKey(nameTeam[1])){
+                pointMap.put(nameTeam[1], 0);
+            }
         }
         
-        for(int x=0;x<pointArys.length;x++){
-            pointMap.put(teamMap.get(pointArys[x][0]), pointMap.get(teamMap.get(pointArys[x][0])) +  Integer.parseInt(pointArys[x][1]));
+        for(String[] namePoint : pointArys){
+            pointMap.put(teamMap.get(namePoint[0]), pointMap.get(teamMap.get(namePoint[0])) + Integer.parseInt(namePoint[1]));
         }
         
         for(String team : pointMap.keySet()){
-            System.out.println(team+"の合計得点は、"+pointMap.get(team)+"点です。");
+            System.out.println(team + "の合計得点は、" + pointMap.get(team) + "点です。");
         }
         
     }

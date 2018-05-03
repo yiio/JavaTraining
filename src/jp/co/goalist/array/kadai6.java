@@ -1,6 +1,6 @@
 package jp.co.goalist.array;
 
-public class kadai6 {
+public class Kadai6 {
 
     public static void main(String[] args) {
         String[][] words = {
@@ -16,38 +16,37 @@ public class kadai6 {
         int[] maxlist = new int[words.length];
         int[] positions = new int[words.length];
         int combNum = 1;
-        for(int x=0;x<words.length;x++){
+        for(int x=0; x < words.length; x++){
             maxlist[x] = words[x].length;
             positions[x] = 0;
             combNum *= words[x].length;
         }
         
         
-        for(int x=0;x<combNum;x++){
-            for(int y=0;y<words.length;y++){
+        for(int x=0; x<combNum; x++){
+            for(int y=0; y < words.length; y++){
                 System.out.print(words[y][positions[y]]);
-            }System.out.println();
+            }
+            System.out.println();
             positions[words.length-1]++;
-            checkAndArrangeArray(positions,maxlist);
-            
+            checkAndArrangeArray(positions, maxlist);
         }
         
     }
     
-    public static void checkAndArrangeArray(int[] target,int[] base){
-        boolean flag;
-        while(true){
-            flag = true;
-            for(int x=base.length-1;x>=0;x--){
-                if(target[x]==base[x]){
+    public static void checkAndArrangeArray(final int[] target, final int[] base){
+        boolean flag = true;
+        while(flag){
+            flag = false;
+            for(int x = base.length-1; x >= 0; x--){
+                if(target[x] == base[x]){
                     target[x] = 0;
-                    if(!(x==0))
+                    if(!(x == 0)){
                         target[x-1]++;
-                    flag = false;
+                    }
+                    flag = true;
                 }
             }
-            if(flag)
-                break;
         }
     
     

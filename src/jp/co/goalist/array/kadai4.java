@@ -1,6 +1,6 @@
 package jp.co.goalist.array;
 
-public class kadai4 {
+public class Kadai4 {
 
     public static void main(String[] args) {
         String[][] goalistAll = {
@@ -9,9 +9,9 @@ public class kadai4 {
             {"三井", "清水", "長田"}
         };
         
-        for(int x=0;x<goalistAll.length;x++){
-            for(int y=0;y<goalistAll[x].length;y++){
-                System.out.println(goalistAll[x][y]);
+        for(String[] names : goalistAll){
+            for(String name : names){
+                System.out.println(name);
             }
         }
     }

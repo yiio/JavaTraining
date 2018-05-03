@@ -5,7 +5,7 @@ import java.util.*;
 import java.nio.file.*;
 import java.text.NumberFormat;
 
-public class kadai7 {
+public class Kadai7 {
 
     
     public static void main(String[] args) {
@@ -13,8 +13,8 @@ public class kadai7 {
         Path salesListPath = Paths.get("../../resources/salesList.csv");
         Path salesItemPath = Paths.get("../../resources/salesItem.csv");
         
-        Map<String,String> codeItemName = new HashMap<>();
-        Map<String,String> codePrice = new HashMap<>();
+        Map<String, String> codeItemName = new HashMap<>();
+        Map<String, String> codePrice = new HashMap<>();
         
         try (BufferedReader br = Files.newBufferedReader(salesItemPath)) {
             
@@ -26,15 +26,15 @@ public class kadai7 {
                 
                 String[] elem = line.split(",");
                 
-                codeItemName.put(elem[0],elem[1]);
-                codePrice.put(elem[0],elem[2]);
+                codeItemName.put(elem[0], elem[1]);
+                codePrice.put(elem[0], elem[2]);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         
         
-        Map<String,Integer> codeCount = new HashMap<>();
+        Map<String, Integer> codeCount = new HashMap<>();
         
         try (BufferedReader br = Files.newBufferedReader(salesListPath)) {
             
@@ -46,9 +46,9 @@ public class kadai7 {
                 
                 String[] elem = line.split(",");
                 if(!codeCount.containsKey(elem[1])){
-                    codeCount.put(elem[1],Integer.parseInt(elem[2]));
+                    codeCount.put(elem[1], Integer.parseInt(elem[2]));
                 }else{
-                    codeCount.replace(elem[1],codeCount.get(elem[1])+Integer.parseInt(elem[2]));
+                    codeCount.replace(elem[1], codeCount.get(elem[1]) + Integer.parseInt(elem[2]));
                 }
                 
             }
@@ -58,9 +58,9 @@ public class kadai7 {
         
         NumberFormat nfNum = NumberFormat.getNumberInstance();
         for(String code : codeCount.keySet()){
-            System.out.println("「"+codeItemName.get(code)+"」の売上高合計は、"
-                             +nfNum.format((long)codeCount.get(code)*Integer.parseInt(codePrice.get(code)))
-                               +"円 です。");
+            System.out.println("「" + codeItemName.get(code) + "」の売上高合計は、"
+                               + nfNum.format((long)codeCount.get(code) * Integer.parseInt(codePrice.get(code)))
+                               + "円 です。");
         
         }
         
