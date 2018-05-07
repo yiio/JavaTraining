@@ -32,17 +32,17 @@ public class Question3 {
                     int point = Integer.parseInt(scores[y][x]); // 最高得点を調べましょう
                     if(max < point){
                         names.clear();
-                        names.add(scores[y][0]); // 最高得点者はリストにブチ込みましょう
+                        names.add(scores[y][0]); // 最高得点者はリストにブチ込みます
                         max = point;
                     }else if(max == point){
-                        names.add(scores[y][0]); // 最高得点者が複数いる場合はリストにブチ込みましょう
+                        names.add(scores[y][0]); // 最高得点者が複数いる場合は、そいつもリストにブチ込みましょう
                     }
                 }
 
-                for(int z = 0; z < names.size(); z++){
-                    if(z == 0){ // 最高得点者がひとり
+                for(int z = 0; z < names.size(); z++){ // リストに入ってる人数で場合分け
+                    if(z == 0){
                         System.out.print(names.get(z));
-                    }else { // 最高得点者が複数
+                    }else {
                         System.out.print("と" + names.get(z));
                     }
                 }
