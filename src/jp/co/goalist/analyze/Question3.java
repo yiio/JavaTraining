@@ -25,8 +25,7 @@ public class Question3 {
             int max = 0;
             String name = "";
             for (i = 1; i < scores.length - 1; i++) {
-                max = Integer.parseInt(scores[i][1]);
-                max = Math.max(max, i);
+                max = Math.max(max, Integer.parseInt(scores[i][1]));
                 if (max == (Integer.parseInt(scores[i][1]))) {
                     name = scores[i][0];
                 }
@@ -34,8 +33,7 @@ public class Question3 {
             System.out.println("数学の最高得点者は" + name + "さん、" + max + "点です。");
 
             for (i = 1; i < scores.length - 1; i++) {
-                max = Integer.parseInt(scores[i][2]);
-                max = Math.max(max, i);
+                max = Math.max(max, Integer.parseInt(scores[i][2]));
                 if (max == (Integer.parseInt(scores[i][2]))) {
                     name = scores[i][0];
                 }
@@ -43,8 +41,7 @@ public class Question3 {
             System.out.println("物理の最高得点者は" + name + "さん、" + max + "点です。");
 
             for (i = 1; i < scores.length - 1; i++) {
-                max = Integer.parseInt(scores[i][3]);
-                max = Math.max(max, i);
+                max = Math.max(max, Integer.parseInt(scores[i][3]));
                 if (max == (Integer.parseInt(scores[i][3]))) {
                     name = scores[i][0];
                 }
@@ -52,8 +49,7 @@ public class Question3 {
             System.out.println("化学の最高得点者は" + name + "さん、" + max + "点です。");
 
             for (i = 1; i < scores.length - 1; i++) {
-                max = Integer.parseInt(scores[i][4]);
-                max = Math.max(max, i);
+                max = Math.max(max, Integer.parseInt(scores[i][4]));
                 if (max == (Integer.parseInt(scores[i][4]))) {
                     name = scores[i][0];
                 }
