@@ -24,7 +24,7 @@ public class Kadai5 {
             String line;
             line = br.readLine();//first line
             String[] elemName = line.split(",");
-            subjectList = Arrays.asList(elemName).subList(1,elemName.length);
+            subjectList = Arrays.asList(elemName).subList(1, elemName.length);
             
             sumList = new int[subjectList.size()];
             
@@ -75,6 +75,15 @@ public class Kadai5 {
                     minList.add(subject);
                 }
             }
+            
+            /*
+            int maxTest = seisekiMap.get(name).keySet()
+                                              .stream()
+                                              .map(subject -> seisekiMap.get(name).get(subject))
+                                              .mapToInt(point -> point)
+                                              .sum();
+            System.out.println("maxTest : " + maxTest);
+             */
             
             System.out.print(name + "さんの全科目合計点は" + sum + "点、");
             System.out.print("全科目平均点は" + (sum / subjectList.size()) + "点、");

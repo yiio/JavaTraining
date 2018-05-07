@@ -10,12 +10,10 @@ public class Kadai7 {
     
     public static void main(String[] args) {
         
-        Path salesListPath = Paths.get("../../resources/salesList.csv");
-        Path salesItemPath = Paths.get("../../resources/salesItem.csv");
-        
         Map<String, String> codeItemName = new HashMap<>();
         Map<String, String> codePrice = new HashMap<>();
         
+        Path salesItemPath = Paths.get("../../resources/salesItem.csv");
         try (BufferedReader br = Files.newBufferedReader(salesItemPath)) {
             
             String line;
@@ -36,6 +34,7 @@ public class Kadai7 {
         
         Map<String, Integer> codeCount = new HashMap<>();
         
+        Path salesListPath = Paths.get("../../resources/salesList.csv");
         try (BufferedReader br = Files.newBufferedReader(salesListPath)) {
             
             String line;
@@ -52,6 +51,7 @@ public class Kadai7 {
                 }
                 
             }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }

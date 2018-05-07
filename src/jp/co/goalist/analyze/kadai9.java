@@ -11,13 +11,10 @@ public class kadai9 {
     
     public static void main(String[] args) {
         
-        Path salesListPath = Paths.get("../../resources/salesList.csv");
+        Map<String, String> codeItemName = new HashMap<>();
+        Map<String, String> codePrice = new HashMap<>();
+        
         Path salesItemPath = Paths.get("../../resources/salesItem.csv");
-        
-        
-        Map<String,String> codeItemName = new HashMap<>();
-        Map<String,String> codePrice = new HashMap<>();
-        
         try (BufferedReader br = Files.newBufferedReader(salesItemPath)) {
             
             String line;
@@ -36,8 +33,9 @@ public class kadai9 {
         }
         
         
-        Map<String,List<String>> dateItemCount = new TreeMap<>();
+        Map<String, List<String>> dateItemCount = new TreeMap<>();
         
+        Path salesListPath = Paths.get("../../resources/salesList.csv");
         try (BufferedReader br = Files.newBufferedReader(salesListPath)) {
             
             String line;
@@ -51,12 +49,12 @@ public class kadai9 {
                     List<String> list = new ArrayList<>();
                     //超絶頭が悪い
                     //date -> List:[Item][Item][Item][Item]...
-                    for(int i=0;i<Integer.parseInt(elem[2]);i++){
+                    for(int i = 0; i < Integer.parseInt(elem[2]); i++){
                         list.add(elem[1]);
                     }
                     dateItemCount.put(elem[0],list);
                 }else{
-                    for(int i=0;i<Integer.parseInt(elem[2]);i++){
+                    for(int i = 0; i < Integer.parseInt(elem[2]); i++){
                         dateItemCount.get(elem[0]).add(elem[1]);
                     }
                 }
@@ -67,10 +65,10 @@ public class kadai9 {
         }
         
         //date ,<code , price>
-        Map<String,Map<String,String>> revisionMap = new TreeMap<>();
-        Path priceChagePath = Paths.get("../../resources/salesPrice.csv");
+        Map<String, Map<String,String>> revisionMap = new TreeMap<>();
         Set<String> revisionDays = new TreeSet<>();
         
+        Path priceChagePath = Paths.get("../../resources/salesPrice.csv");
         try (BufferedReader br = Files.newBufferedReader(priceChagePath)) {
             
             String line;
@@ -82,11 +80,11 @@ public class kadai9 {
                 String[] elem = line.split(",");
                 revisionDays.add(elem[1]);
                 if(!revisionMap.containsKey(elem[1])){
-                    Map<String,String> map = new HashMap<>();
-                    map.put(elem[0],elem[2]);
-                    revisionMap.put(elem[1],map);
+                    Map<String, String> map = new HashMap<>();
+                    map.put(elem[0], elem[2]);
+                    revisionMap.put(elem[1], map);
                 }else{
-                    revisionMap.get(elem[1]).put(elem[0],elem[2]);
+                    revisionMap.get(elem[1]).put(elem[0], elem[2]);
                 }
                 
             }
@@ -109,25 +107,28 @@ public class kadai9 {
             bw.newLine();
             
             
-            for(int i=0;i<2;i++){
+            for(int i = 0; i < 2; i++){
+                
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.MONTH, i);
                 cal.set(Calendar.YEAR, 2017);
                 int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
                 SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+                
                 for (int j = 0; j < maxDay; j++) {
+                    
                     cal.set(Calendar.DAY_OF_MONTH, j + 1);
                     String date = df.format(cal.getTime());
                     
-                    if( ( dayPosi < revisionDaysList.size() )&&( date.compareTo(revisionDaysList.get(dayPosi)) >= 0 ) ){
+                    if( ( dayPosi < revisionDaysList.size() ) && ( date.compareTo(revisionDaysList.get(dayPosi)) >= 0 ) ){
                         for(String code : revisionMap.get(revisionDaysList.get(dayPosi)).keySet()){
-                            codePrice.replace(code,revisionMap.get(revisionDaysList.get(dayPosi)).get(code));
+                            codePrice.replace(code, revisionMap.get(revisionDaysList.get(dayPosi)).get(code));
                         }
                         dayPosi++;
                     }
                     
                     if(dateItemCount.containsKey(date)){
-                        int sum=0;
+                        int sum = 0;
                         for(String code : dateItemCount.get(date)){
                             //System.out.print(code+" : "+codePrice.get(code)+" ,");
                             sum += Integer.parseInt(codePrice.get(code));
@@ -136,7 +137,7 @@ public class kadai9 {
                         //System.out.println("--> "+date + " , " + sum + "円");
                         
                     }else{
-                        bw.write("\""+date+"\",\"0円\"");
+                        bw.write("\"" + date + "\",\"0円\"");
                     }
                     bw.newLine();
                 }
