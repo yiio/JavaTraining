@@ -31,7 +31,6 @@ public class Question4 {
                 BigDecimal ave3 = new BigDecimal(String.valueOf(ave));
                 ave3 = ave3.setScale(2, BigDecimal.ROUND_HALF_UP);
                 System.out.println(scores[0][j] + "の平均点は" + ave3 + "点です。");
-                sum = 0;
             }
 
         } catch (IOException e) {
