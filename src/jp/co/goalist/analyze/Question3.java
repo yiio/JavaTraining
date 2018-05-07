@@ -12,9 +12,7 @@ public class Question3 {
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line;
 
-
-
-            //データを二次元配列に格納する
+            // データを二次元配列に格納する
             String[][] scores = new String[6][5];
             int i = 0;
             while ((line = br.readLine()) != null) { // ファイルを1行ずつ読み込み、結果がnull以外ならばwhileループ内の処理を行う
