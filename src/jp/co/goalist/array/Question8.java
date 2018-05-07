@@ -46,7 +46,7 @@ public class Question8 {
         }
 
         // 各チームの合計点を保持するマップを作る
-        Map<String, Integer> teamPointMap = new TreeMap<String, Integer>(); // 出力時の順番をkeyを昇順にしたいので今回はTreeMapを使う
+        Map<String, Integer> teamPointMap = new TreeMap<String, Integer>(); // 出力時の順番を昇順にしたいので今回はTreeMapを使う
 
         // 名前と得点の配列を１つずつ見ていく
         for (String[] pointAry : pointArys) {
