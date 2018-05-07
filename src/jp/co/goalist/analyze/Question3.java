@@ -24,37 +24,15 @@ public class Question3 {
             // 最高得点者の特定
             int max = 0;
             String name = "";
-            for (i = 1; i < scores.length - 1; i++) {
-                max = Math.max(max, Integer.parseInt(scores[i][1]));
-                if (max == (Integer.parseInt(scores[i][1]))) {
-                    name = scores[i][0];
+            for (int j = 1; j < scores[0].length; j++) {
+                for (i = 1; i < scores.length; i++) {
+                    max = Math.max(max, Integer.parseInt(scores[i][j]));
+                    if (max == (Integer.parseInt(scores[i][j]))) {
+                        name = scores[i][0];
+                    }
                 }
+                System.out.println(scores[0][j] + "の最高得点者は" + name + "さん、" + max + "点です。");
             }
-            System.out.println("数学の最高得点者は" + name + "さん、" + max + "点です。");
-
-            for (i = 1; i < scores.length - 1; i++) {
-                max = Math.max(max, Integer.parseInt(scores[i][2]));
-                if (max == (Integer.parseInt(scores[i][2]))) {
-                    name = scores[i][0];
-                }
-            }
-            System.out.println("物理の最高得点者は" + name + "さん、" + max + "点です。");
-
-            for (i = 1; i < scores.length - 1; i++) {
-                max = Math.max(max, Integer.parseInt(scores[i][3]));
-                if (max == (Integer.parseInt(scores[i][3]))) {
-                    name = scores[i][0];
-                }
-            }
-            System.out.println("化学の最高得点者は" + name + "さん、" + max + "点です。");
-
-            for (i = 1; i < scores.length - 1; i++) {
-                max = Math.max(max, Integer.parseInt(scores[i][4]));
-                if (max == (Integer.parseInt(scores[i][4]))) {
-                    name = scores[i][0];
-                }
-            }
-            System.out.println("英語の最高得点者は" + name + "さん、" + max + "点です。");
 
         } catch (IOException e) {
             e.printStackTrace();
