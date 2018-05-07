@@ -28,7 +28,7 @@ public class Question4 {
                     sum += Integer.parseInt(scores[i][j]);
                 }
                 ave = sum / (scores.length - 1);
-                BigDecimal ave3 = new BigDecimal(ave);
+                BigDecimal ave3 = new BigDecimal(String.valueOf(ave));
                 ave3 = ave3.setScale(2, BigDecimal.ROUND_HALF_UP);
                 System.out.println(scores[0][j] + "の平均点は" + ave3 + "点です。");
             }
