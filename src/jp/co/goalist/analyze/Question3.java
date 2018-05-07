@@ -14,7 +14,7 @@ public class Question3 {
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line;
 
-            // データの配列化
+            // 配列にデータを入れていきます
             String[][] scores = new String[6][5];
             int i = 0;
             while ((line = br.readLine()) != null) {
@@ -29,13 +29,13 @@ public class Question3 {
                 System.out.print(scores[0][x] + "の最高得点者は");
 
                 for (int y = 1; y < scores.length; y++) {
-                    int point = Integer.parseInt(scores[y][x]); // 最高得点を調べる
+                    int point = Integer.parseInt(scores[y][x]); // 最高得点を調べましょう
                     if(max < point){
                         names.clear();
-                        names.add(scores[y][0]);
+                        names.add(scores[y][0]); // 最高得点者はリストにブチ込みましょう
                         max = point;
                     }else if(max == point){
-                        names.add(scores[y][0]); // 最高得点者が複数いる場合はリストにブチ込む
+                        names.add(scores[y][0]); // 最高得点者が複数いる場合はリストにブチ込みましょう
                     }
                 }
 
