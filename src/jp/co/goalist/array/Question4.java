@@ -10,9 +10,18 @@ public class Question4 {
                 {"入倉", "盛次", "飯尾", "チナパ"},
                 {"三井", "清水", "長田"}
             };
+        System.out.println("----- for文 -----");
         for(int i = 0; i < goalistAll.length; i++) {
             for(int j = 0; j < goalistAll[i].length; j++) {
                 System.out.println(goalistAll[i][j]);
+            }
+        }
+
+        System.out.println(" ");
+        System.out.println("----- 拡張for文 -----");
+        for(String[] x : goalistAll ) {
+            for(String name : x ) {
+                System.out.println(name);
             }
         }
     }
