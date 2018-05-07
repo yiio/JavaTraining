@@ -2,6 +2,7 @@ package jp.co.goalist.array;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Question6 {
 
@@ -14,7 +15,7 @@ public class Question6 {
             };
 
         // その1
-        ArrayList<String> sentenceList = joinWords(arys);
+        List<String> sentenceList = joinWords(arys);
         for (String sentence : sentenceList) {
             System.out.println(sentence);
         }
@@ -26,8 +27,8 @@ public class Question6 {
     /**
      * 文字列の配列を再帰的に連結して、文のリストを作っていく
      */
-    private static ArrayList<String> joinWords(String[][] arys) {
-        ArrayList<String> res = new ArrayList<String>();
+    private static List<String> joinWords(String[][] arys) {
+        List<String> res = new ArrayList<String>();
         if (arys == null || arys.length == 0) {
             return res;
         }
@@ -40,7 +41,7 @@ public class Question6 {
         }
 
         // 次の配列があれば連結しておく
-        ArrayList<String> sentenceList = joinWords(Arrays.copyOfRange(arys, 1, arys.length));
+        List<String> sentenceList = joinWords(Arrays.copyOfRange(arys, 1, arys.length));
         for (String word : arys[0]) {
             for (String sentence : sentenceList) {
                 res.add(word + sentence);

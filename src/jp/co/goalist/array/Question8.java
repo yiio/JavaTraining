@@ -69,7 +69,6 @@ public class Question8 {
             String sum = String.valueOf(entry.getValue());
             System.out.println(team + "の合計得点は、" + sum + "点です。");
         }
-        System.out.println();
     }
 
 }
