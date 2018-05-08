@@ -11,12 +11,26 @@ import java.util.List;
 public class Question3 {
     public static void main(String[] args) {
         Path filePath = Paths.get("C:\\TechTraining\\resources\\testResult.csv");
+
+        // データの行列数を調べる
+        int a = 0;
+        int b = 0;
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line;
+            while ((line = br.readLine()) != null) {
+                String[] col = line.split(",");
+                b = col.length;
+                a++;
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            // 配列にデータを入れていきます
-            String[][] scores = new String[6][5];
+        try (BufferedReader br = Files.newBufferedReader(filePath)) {
+            String line;
+            // 多元配列にデータを格納
             int i = 0;
+            String[][] scores = new String[a][b];
             while ((line = br.readLine()) != null) {
                 String[] cols = line.split(",");
                 scores[i] = cols;
