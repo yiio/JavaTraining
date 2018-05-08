@@ -123,7 +123,7 @@ public class Kadai3 {
         printArray(ans);
         System.out.println("highest prob char : "+extractHighestProbChar(ans));
         
-        for(int i = 2; i < 1000; i++){
+        for(int i = 2; i < 999; i++){
             ret = multiMatrix(tpm0, ret);
         }
         ans = multiArrayAndMatrix(initCharDist, ret);
