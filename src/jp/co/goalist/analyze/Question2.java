@@ -18,7 +18,11 @@ public class Question2 {
             line = br.readLine();//first line
             while ((line = br.readLine()) != null) {
                 String[] elem = line.split(",");
-                scoreMap.put(elem[0],Integer.parseInt(elem[1]));
+                try {
+                    scoreMap.put(elem[0],Integer.parseInt(elem[1]));
+                } catch (NumberFormatException e) {
+                    scoreMap.put(elem[0],0);
+                }
             }
         }catch (IOException e) {
             e.printStackTrace();
