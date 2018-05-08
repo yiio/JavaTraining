@@ -114,10 +114,10 @@ public class Kadai3{
                 
                 String limit = m.group(10).equals("0")? "unlimited" : df.format(new Date(Integer.parseInt(m.group(10)) * 1000));
                 
-                bw.write("\"" + m.group(1) + "\","
+                bw.write( "\"" + m.group(1) + "\","
                         + "\"" + convertToOiginal(m.group(3)) + "\","
                         + "\"" + convertToOiginal(m.group(6)) + "\","
-                         + "\"" + limit + "\","
+                        + "\"" + limit + "\","
                         + "\"" + convertToOiginal(m.group(9)) + "\","
                         + "\"" + m.group(11) + "\",");
                 bw.newLine();
