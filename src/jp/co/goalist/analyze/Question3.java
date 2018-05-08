@@ -29,13 +29,16 @@ public class Question3 {
                 System.out.print(scores[0][x] + "の最高得点者は");
 
                 for (int y = 1; y < scores.length; y++) {
-                    int point = Integer.parseInt(scores[y][x]); // 最高得点を調べましょう
-                    if(max < point){
-                        names.clear();
-                        names.add(scores[y][0]); // 最高得点者はリストにブチ込みます
-                        max = point;
-                    }else if(max == point){
-                        names.add(scores[y][0]); // 最高得点者が複数いる場合は、そいつもリストにブチ込みましょう
+                    try {
+                        int point = Integer.parseInt(scores[y][x]);
+                        if(max < point){
+                            names.clear();
+                            names.add(scores[y][0]); // 最高得点者はリストにブチ込みます
+                            max = point;
+                        }else if(max == point){
+                            names.add(scores[y][0]); // 最高得点者が複数いる場合は、そいつもリストにブチ込みましょう
+                        }
+                    }catch (NumberFormatException e) {
                     }
                 }
 
