@@ -10,10 +10,23 @@ import java.nio.file.Paths;
 public class Question4 {
     public static void main(String[] args) {
         Path filePath = Paths.get("C:\\TechTraining\\resources\\testResult.csv");
+
+        int a = 0;
+        int b = 0;
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line;
+            while ((line = br.readLine()) != null) {
+                String[] col = line.split(",");
+                b = col.length;
+                a++;
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            String[][] scores = new String[6][5];
+        try (BufferedReader br = Files.newBufferedReader(filePath)) {
+            String line;
+            String[][] scores = new String[a][b];
             int i = 0;
             while ((line = br.readLine()) != null) {
                 String[] cols = line.split(",");
