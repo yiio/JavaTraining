@@ -6,14 +6,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Question1 {
 
     public static void main(String[] args) {
 
-        HashMap<String, Integer> prefMap = new HashMap<>();
+        Map<String, Integer> prefMap = new HashMap<>();
 
         Path filePath = Paths.get("c:/TechTraining/resources/prefs.txt"); // 読み込み対象ファイルの場所を指定
+        
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line;
             while ((line = br.readLine()) != null) { // ファイルを1行ずつ読み込み、結果がnull以外ならばwhileループ内の処理を行う

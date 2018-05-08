@@ -1,24 +1,26 @@
 package jp.co.goalist.analyze;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Question3 {
 
     public static void main(String[] args) {
 
-        HashMap<Integer, String> mMap = new HashMap<>();
-        HashMap<Integer, String> pMap = new HashMap<>();
-        HashMap<Integer, String> cMap = new HashMap<>();
-        HashMap<Integer, String> eMap = new HashMap<>();
+        Map<Integer, String> mMap = new HashMap<>();
+        Map<Integer, String> pMap = new HashMap<>();
+        Map<Integer, String> cMap = new HashMap<>();
+        Map<Integer, String> eMap = new HashMap<>();
+
+        Path filePath = Paths.get("c:/TechTraining/resources/testResult.csv");// 読み込み対象ファイルの場所を指定
 
         //csvの内容をを二次元配列に格納
-        try {
-            File f = new File("c:/TechTraining/resources/testResult.csv");// 読み込み対象ファイルの場所を指定
-            BufferedReader br = new BufferedReader(new FileReader(f));
+        try {BufferedReader br = Files.newBufferedReader(filePath);
 
             String[][] data = new String[6][5];
             String line = br.readLine();
