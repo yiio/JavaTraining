@@ -39,7 +39,7 @@ public class Question3 {
                             names.add(scores[y][0]); // 最高得点者が複数いる場合は、そいつもリストにブチ込みましょう
                         }
                     }catch (NumberFormatException e) {
-                    }
+                    } // ここで何も処理しないのってまずいですかね…？
                 }
 
                 for(int z = 0; z < names.size(); z++){ // リストに入ってる人数で場合分け
