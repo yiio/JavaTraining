@@ -25,8 +25,9 @@ public class Question2 {
             //最高得点の決定
             int max = Integer.parseInt(data[1][1]);
             for (int i = 1; i < data.length; i++) {
-                if (max < Integer.parseInt(data[i][1])) {
-                    max = Integer.parseInt(data[i][1]);
+                int point = Integer.parseInt(data[i][1]);
+                if (max < point) {
+                    max = point;
                 }
             }
             System.out.println("数学の最高得点は" + max + "点です");
