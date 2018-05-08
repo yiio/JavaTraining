@@ -18,8 +18,8 @@ public class Question3 {
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] col = line.split(",");
-                b = col.length;
+                String[] cols = line.split(",");
+                b = cols.length;
                 a++;
             }
         }catch (IOException e) {
@@ -28,7 +28,7 @@ public class Question3 {
 
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line;
-            // 多元配列にデータを格納
+            // 2次元配列にデータを格納
             int i = 0;
             String[][] scores = new String[a][b];
             while ((line = br.readLine()) != null) {
@@ -65,7 +65,6 @@ public class Question3 {
                 }
                 System.out.println("で、" + max + "です。");
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
