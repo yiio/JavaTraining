@@ -43,7 +43,7 @@ public class Question8_2 {
 
         Map<String, Integer> dateSumMap = new TreeMap<String, Integer>();
 
-        // コードと日別売上の対応表を作る
+        // 日ごとの売上の対応表を作る
         try (BufferedReader br = Files.newBufferedReader(filePath2)) {
             String line;
             while ((line = br.readLine()) != null) {
