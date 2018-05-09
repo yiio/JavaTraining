@@ -60,8 +60,8 @@ public class Question8 {
             bw.newLine();
 
 
+            Calendar cal = Calendar.getInstance();
             for(int month = 0; month < 2; month++){
-                Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.MONTH, month);
                 cal.set(Calendar.YEAR, 2017);
                 int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
