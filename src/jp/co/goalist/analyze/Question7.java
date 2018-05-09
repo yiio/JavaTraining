@@ -52,8 +52,9 @@ public class Question7 {
 
         // sumMapに要素の追加
         for(String code : numMap.keySet()) {
-            int sPrice = tankaMap.get(code) * numMap.get(code);
-            sumMap.put(codeMap.get(code), sumMap.get(codeMap.get(code)) + sPrice);
+            int price = tankaMap.get(code) * numMap.get(code);
+            String name = codeMap.get(code);
+            sumMap.put(name, sumMap.get(name) + price);
         }
 
 
