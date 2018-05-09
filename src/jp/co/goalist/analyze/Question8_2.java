@@ -90,7 +90,7 @@ public class Question8_2 {
             String date = entry2.getKey();
             int month = Integer.parseInt(date.substring(5, 7));
             Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.MONTH, month);
+            cal.set(Calendar.MONTH, month - 1);
             int maxDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
             Format f = new DecimalFormat("00");
             for (int i = 1; i <= maxDays; i++) {
@@ -101,7 +101,7 @@ public class Question8_2 {
         }
 
         // csvファイルの出力
-        Path filePath = Paths.get("C:\\TechTraining\\resources\\answer.txt");
+        Path filePath = Paths.get("C:\\TechTraining\\resources\\answer.csv");
         try {
             Files.deleteIfExists(filePath);
             Files.createFile(filePath);
