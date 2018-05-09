@@ -41,9 +41,9 @@ public class Question8_2 {
             e.printStackTrace();
         }
 
+        // 日ごとの売上の対応表を作る
         Map<String, Integer> dateSumMap = new TreeMap<String, Integer>();
 
-        // 日ごとの売上の対応表を作る
         try (BufferedReader br = Files.newBufferedReader(filePath2)) {
             String line;
             while ((line = br.readLine()) != null) {
