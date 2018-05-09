@@ -86,10 +86,10 @@ public class Question8_2 {
         }
 
         // データにない日付を追加する
+        Calendar cal = Calendar.getInstance();
         for (Map.Entry<String, List<Integer>> entry2 : monthDay.entrySet()) {
             String date = entry2.getKey();
             int month = Integer.parseInt(date.substring(5, 7));
-            Calendar cal = Calendar.getInstance();
             cal.set(Calendar.MONTH, month - 1);
             int maxDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
             Format f = new DecimalFormat("00");
