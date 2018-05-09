@@ -19,8 +19,7 @@ public class Question4_2 {
         Map<String, Map<String, Integer>> resultMap = new HashMap<>(); // <名前,<科目,点数>>
 
         // 1行目を科目リストに追加
-        try {
-            BufferedReader br = Files.newBufferedReader(filePath);
+        try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line;
             line = br.readLine();
             String[] subject = line.split(",");
