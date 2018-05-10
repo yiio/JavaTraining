@@ -21,7 +21,7 @@ public class Question5 {
         Map<String, String> maxMap = new HashMap<>(); //<名前,最高点の科目>
         Map<String, String> minMap = new HashMap<>(); //<名前,最低点の科目>
 
-        int lineCount1 = 0;
+        int lineCount1 = -1;
 
         //ファイルを一度読み込んで行数を調べる
         try (BufferedReader br2 = Files.newBufferedReader(filePath)) {
@@ -43,7 +43,7 @@ public class Question5 {
             String[] subject = line.split(",");
             List<String> list = Arrays.asList(subject).subList(1, subject.length); // 科目リスト
 
-            //１度目の読み込みで調べた行数と同じ要素数の配列を作成
+            //１度目の読み込みで調べた行数-1の要素数の配列を作成
             int[] sums = new int[lineCount1];
             int[] aves = new int[lineCount1];
             int[] maxes = new int[lineCount1];
