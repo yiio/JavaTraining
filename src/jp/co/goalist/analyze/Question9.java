@@ -18,7 +18,7 @@ public class Question9 {
         Path salesItem = Paths.get("C:/TechTraining/resources/salesItem.csv");
         Path salesList = Paths.get("C:/TechTraining/resources/salesList.csv");
         Path salesPrice = Paths.get("C:/TechTraining/resources/salesPrice.csv");
-        Path answer = Paths.get("C:/TechTraining/resources/answer.txt");
+        Path answer = Paths.get("C:/TechTraining/resources/answer.csv");
         Map<String,Integer> tankaMap = new HashMap<>(); // 商品コード,単価
         Map<String,Integer> dateMap = new TreeMap<>(); // 日付,金額
 
@@ -91,7 +91,7 @@ public class Question9 {
             bw.newLine();
             for(String date : dateMap.keySet()) {
                 int sumPrice = dateMap.get(date);
-                String datePrice = date + ", " + sumPrice + "円" ;
+                String datePrice = date + "," + sumPrice + "円" ;
                 System.out.println(datePrice);
                 bw.write(datePrice);
                 bw.newLine();

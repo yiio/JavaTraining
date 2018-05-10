@@ -17,6 +17,7 @@ public class Question8 {
 
         Path salesItem = Paths.get("C:/TechTraining/resources/salesItem.csv");
         Path salesList = Paths.get("C:/TechTraining/resources/salesList.csv");
+        Path filePath = Paths.get("C:/TechTraining/resources/answer.csv");
         Map<String,Integer> tankaMap = new HashMap<>(); // 商品コード,単価
         Map<String,Integer> dateMap = new TreeMap<>(); // 日付,金額
 
@@ -54,7 +55,6 @@ public class Question8 {
 
 
         // 書き込みます
-        Path filePath = Paths.get("C:/TechTraining/resources/answer.txt");
         try (BufferedWriter bw = Files.newBufferedWriter(filePath)) {
             bw.write("販売日,売上総額");
             bw.newLine();
