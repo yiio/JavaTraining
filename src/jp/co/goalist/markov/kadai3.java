@@ -15,7 +15,8 @@ import java.util.TreeMap;
 
 public class Kadai3 {
     
-    public static int loopCount = 10;
+    public static final int loopCount = 10;
+    public static final int AlphabetNum = 26;
 
     public static void main(String[] args) {
         
@@ -60,9 +61,13 @@ public class Kadai3 {
         
         double[] initCharDist = new double[26];
         /*
+        /* initialize by probability distribution
         for(int i=0;i<26;i++){
             initCharDist[i] = (double)eachCountMap.get(String.valueOf((char)('a'+i)))/(bigram.length+1);
-        }*/
+        }
+         */
+        
+        /* initialize by the last char */
         for(int i=0;i<26;i++){
             initCharDist[i] = 0;
             if(i==('n'-'a')){
@@ -98,49 +103,27 @@ public class Kadai3 {
             posix++;
         }
         
-        double[][] ret = new double[26][26];
-        for(int i=0;i<26;i++){
-            for(int j=0;j<26;j++){
-                ret[i][j] = tpm0[i][j];
-            }
-        }
-        
-        
-        
         long startTime = System.currentTimeMillis();
-        
-        for(int i = 1; i < 2; i++){
-            ret = multiMatrix(tpm0, ret);
-            //System.out.println(i+"times finished.");
-        }
-        
         
         
         double[] ans = new double[26];
-        ans = multiArrayAndMatrix(initCharDist, ret);
         
+        ans = multiArrayAndMatrix(initCharDist, makeTransProbMatrixN(tpm0, 2));
         System.out.println("\na probability of 2nd char ");
         printArray(ans);
         System.out.println("highest prob char : "+extractHighestProbChar(ans));
         
-        for(int i = 2; i < 999; i++){
-            ret = multiMatrix(tpm0, ret);
-        }
-        ans = multiArrayAndMatrix(initCharDist, ret);
+        ans = multiArrayAndMatrix(initCharDist, makeTransProbMatrixN(tpm0, 999));
         System.out.println("\na probability of 999th char ");
         printArray(ans);
         System.out.println("highest prob char : "+extractHighestProbChar(ans));
         
-        ret = multiMatrix(tpm0, ret);
-        ans = multiArrayAndMatrix(initCharDist, ret);
+        ans = multiArrayAndMatrix(initCharDist, makeTransProbMatrixN(tpm0, 1000));
         System.out.println("\na probability of 1000th char ");
         printArray(ans);
         System.out.println("highest prob char : "+extractHighestProbChar(ans));
         
-        for(int i = 1000; i < 1000000; i++){
-            ret = multiMatrix(tpm0, ret);
-        }
-        ans = multiArrayAndMatrix(initCharDist, ret);
+        ans = multiArrayAndMatrix(initCharDist, makeTransProbMatrixN(tpm0, 1000000));
         System.out.println("\na probability of 1000000th char ");
         printArray(ans);
         System.out.println("highest prob char : "+extractHighestProbChar(ans));
@@ -185,12 +168,28 @@ public class Kadai3 {
     }
 
     public static double[] multiArrayAndMatrix(final double[] x,final double[][] y){
-        double[] ret = new double[26];
+        double[] ret = new double[AlphabetNum];
         
         for(int i=0;i<26;i++){
             for(int j=0;j<26;j++){
                 ret[i] += x[j] * y[j][i];
             }
+        }
+        
+        return ret;
+    }
+    
+    public static double[][] makeTransProbMatrixN(double[][] matrix, int times){
+        double[][] ret = new double[AlphabetNum][AlphabetNum];
+        
+        for(int i = 0; i < AlphabetNum; i++){
+            for(int j = 0; j < AlphabetNum; j++){
+                ret[i][j] = matrix[i][j];
+            }
+        }
+        
+        for(int i = 1; i < times; i++){
+            ret = multiMatrix(ret, matrix);
         }
         
         return ret;
