@@ -65,7 +65,6 @@ public class Question9 {
 
 
                 // salesListを1行ずつ読み、記載されてる日付がdateと一致する場合はdateMapの金額に加算
-                // 一致しない場合は<日付,0>を追加
                 try (BufferedReader br = Files.newBufferedReader(salesList)) {
                     String line;
                     line = br.readLine(); // first line
