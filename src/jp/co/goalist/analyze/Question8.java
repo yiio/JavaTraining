@@ -71,7 +71,6 @@ public class Question8 {
                 for (int i = 1; i < maxDay; i++) {
                     cal.set(Calendar.DAY_OF_MONTH, i );
                     String date = df.format(cal.getTime());
-
                     if(dateMap.containsKey(date)){
                         int sumPrice = dateMap.get(date);
                         String datePrice1 = date + ", " + sumPrice + "円" ;
