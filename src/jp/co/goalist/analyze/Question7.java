@@ -63,7 +63,7 @@ public class Question7 {
 
             // 結果を出力
             for (int x = 0; x < codeList.size(); x++) {
-                System.out.println("「" + prodMap.get(codeList.get(x)) + "」" + "の売上高合計は、" + sales[x] + "円です。");
+                System.out.println("「" + prodMap.get(codeList.get(x)) + "」" + "の売上高合計は、" + String.format("%,d",sales[x]) + "円です。");
             }
 
         } catch (IOException e) {
