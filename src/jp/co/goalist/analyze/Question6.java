@@ -69,7 +69,7 @@ public class Question6 {
 
             }
 
-            // TreeMapによってValueで降順にソートされた点数をリストへ追加
+            // TreeMapによってKeyで降順にソートされた点数をリストへ追加
             List<Integer> pointList2 = new ArrayList<>(sumMap.keySet());
 
             // 順位を決定、出力
