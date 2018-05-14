@@ -16,7 +16,10 @@ public class Question1 {
         Map<String, Integer> sumMap = new TreeMap<>();
 
         // あたまわるい
-        String[] str = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+        String[] str = {"a", "b", "c", "d", "e", "f", "g",
+                        "h", "i", "j", "k", "l", "m", "n",
+                        "o", "p", "q", "r", "s", "t", "u",
+                        "v", "w", "x", "y", "z"};
 
         for(String x : str){
             Map<String, Integer> map = new TreeMap<>();
