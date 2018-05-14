@@ -51,9 +51,13 @@ public class Question8_2 {
                 String[] elems = line.split(",");
 
                 dateList.add(elems[0]);
+
+              //日付ごとの売り上げを求める
                 if (!salesMap.containsKey(elems[0])) {
+                    //salesMapに含まれていない日付は、新しく売上を追加
                     salesMap.put(elems[0], priceMap.get(elems[1]) * Integer.parseInt(elems[2]));
                 }else {
+                  //salesMapに含まれているものは、それまでの売上に加算
                     salesMap.put(elems[0], salesMap.get(elems[0]) + priceMap.get(elems[1])* Integer.parseInt(elems[2]));
                 }
 
@@ -63,15 +67,17 @@ public class Question8_2 {
 
            date1 = dateList.get(0).split("/");
            date2 = dateList.get(lineCount-1).split("/");
+           //初日をその月の１日に設定
            firstDate.set(Integer.parseInt(date1[0]),Integer.parseInt(date1[1])-1,01);
-
+           //最終日を次月の１日に設定
            lastDate.set(Integer.parseInt(date2[0]),Integer.parseInt(date2[1]),01);
 
+           //初日と最終日の差分を求める
            long diff = lastDate.get(Calendar.DAY_OF_YEAR) - firstDate.get(Calendar.DAY_OF_YEAR);
            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
+           //差分の回数だけ日付に+1していき、salesMapのKeyに含まれない日付を追加、売上に0を追加
            for (int x = 0; x < diff; x++) {
-
                String now = sdf.format(firstDate.getTime());
                if (!salesMap.containsKey(now)) {
                    salesMap.put(now, 0);
@@ -102,6 +108,7 @@ public class Question8_2 {
             bw.write("販売日" + "," + "売上総額");
             bw.newLine();
 
+            //1日ごとの売上をファイルに書き込む
             for(int x = 0; x < dateList2.size(); x++) {
                bw.write(dateList2.get(x) + "," + salesMap.get(dateList2.get(x)) + "円");
                bw.newLine(); // 改行
