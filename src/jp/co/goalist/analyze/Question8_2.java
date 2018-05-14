@@ -28,14 +28,15 @@ public class Question8_2 {
         List<String> dateList2 = null;
         Calendar firstDate = Calendar.getInstance();
         Calendar lastDate = Calendar.getInstance();
-        Map<String,Integer> priceMap = new HashMap<>();
-        Map<String,Integer> salesMap = new TreeMap<>();
+        Map<String,Integer> priceMap = new HashMap<>(); //<商品コード,単価>
+        Map<String,Integer> salesMap = new TreeMap<>(); //<日付,売上>
 
         try(BufferedReader br = Files.newBufferedReader(filePath2)){
 
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] elems2 = line.split(",");
+                //商品コードと単価をpriceMapに格納
                 priceMap.put(elems2[0], Integer.parseInt(elems2[2]));
             }
 
