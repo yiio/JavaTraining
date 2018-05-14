@@ -93,10 +93,15 @@ public class Question9_2 {
 
                 // 日付ごとの売上を求める
                 int price = priceMap.get(elems[1]);
+                int number = Integer.parseInt(elems[2]);
+
+                //日付がsalesMapに含まれていない場合、追加
                 if (!salesMap.containsKey(elems[0])) {
-                    salesMap.put(date, price * Integer.parseInt(elems[2]));
+                    salesMap.put(date, price * number);
+
+                //含まれている場合、同じ日付のものに加算
                 } else {
-                    salesMap.put(date, salesMap.get(date) + (price * Integer.parseInt(elems[2])));
+                    salesMap.put(date, salesMap.get(date) + (price * number));
                 }
 
                 lineCount2++; // 行数カウント、初日と最終日を求めるため
