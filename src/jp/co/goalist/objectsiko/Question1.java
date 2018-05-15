@@ -16,6 +16,7 @@ import java.util.TreeMap;
 
 public class Question1 {
     public static void main(String[] args) {
+        Path filePath1 = Paths.get("C:\\TechTraining\\resources\\salesItem.csv");
         Path filePath2 = Paths.get("C:\\TechTraining\\resources\\salesList.csv");
         Path filePath3 = Paths.get("C:\\TechTraining\\resources\\salesPrice.csv");
 
@@ -23,12 +24,21 @@ public class Question1 {
         Map<String, Integer> dateSumMap = new TreeMap<String, Integer>();
 
         // コードと単価の対応表を作る
-        SalesItem2 sItem = new SalesItem2();
-        sItem.filePath = Paths.get("C:\\TechTraining\\resources\\salesItem2.csv");
-        try {
-            sItem.makeList();
-        } catch (IOException e2) {
-            e2.printStackTrace();
+        try (BufferedReader br = Files.newBufferedReader(filePath1)) {
+            String line;
+            int cnt = 0;
+            while ((line = br.readLine()) != null) {
+                cnt++;
+                if (cnt == 1) {
+                    continue;
+                }
+                SalesItem si = new SalesItem();
+                si.property = line.split(",");
+                si.makeItem();
+                priceMap.put(si.code, si.price);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         // salesListのデータをListに格納
@@ -71,14 +81,6 @@ public class Question1 {
         cal.set(2017, 0, 1);
         for (int i = 0; i < 60; i++) {
             String calDate = calendar.format(cal.getTime());
-
-            // 商品の金額を書き換える
-            for (String[] cols : salesPrice) {
-                int price = Integer.parseInt(cols[2]);
-                if (cols[1].equals(calDate)) {
-                    priceMap.put(cols[0], price);
-                }
-            }
 
             // 日ごとの売り上げの計算
             for (String[] cols : salesList) {
@@ -125,22 +127,15 @@ public class Question1 {
 
 }
 
-class SalesItem2 {
-    Path filePath;
-    Map<String, Integer> priceMap = new HashMap<>();
+class SalesItem {
+    String[] property;
+    String code;
+    String name;
+    int price;
 
-    public void makeList() throws IOException {
-        BufferedReader br = Files.newBufferedReader(filePath);
-        String line;
-        int cnt = 0;
-        while ((line = br.readLine()) != null) {
-            String[] cols = line.split(",");
-            cnt++;
-            if (cnt == 1) {
-                continue;
-            }
-            priceMap.put(cols[1], Integer.parseInt(cols[3]));
-        }
+    void makeItem() {
+        this.code = property[0];
+        this.name = property[1];
+        this.price = Integer.parseInt(property[2]);
     }
-
 }
