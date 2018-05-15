@@ -17,12 +17,10 @@ public class Question2{
     public static void main(String[] args){
 
         //input a task message
-        String task = "絶えず人\n" +
-                       "いこふ夏野の\n" +
-                       "石一つ";
+        String task = "労働";
 
         final String urlstr = "https://api.chatwork.com/v2/rooms/105172471/tasks";
-        final String apiKey = "えーぴーあいきー";
+        final String apiKey = "APIkey";
 
         HttpURLConnection con = null;
         try{
@@ -45,19 +43,17 @@ public class Question2{
             OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
             out.write(parameter);
             out.close();
-
             con.connect();
 
-
-            final InputStream in = con.getInputStream();
-            final InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
-            final BufferedReader bufReader = new BufferedReader(inReader);
-
-            String line = null;
-            while((line = bufReader.readLine()) != null) {
-                System.out.println(line);
+            try ( InputStream in = con.getInputStream();
+                  InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
+                  BufferedReader bufReader = new BufferedReader(inReader)) {
+                String line = null;
+                while((line = bufReader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            } catch (IOException e ){
             }
-
 
         }catch (MalformedURLException e1) {
             e1.printStackTrace();

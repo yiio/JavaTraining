@@ -18,7 +18,7 @@ public class Question1{
         //input a message you want to send
         String message = "Hello";
         final String urlstr = "https://api.chatwork.com/v2/rooms/105172471/messages";
-        final String apiKey = "えーぴーあいきー";
+        final String apiKey = "APIkey";
 
         HttpURLConnection con = null;
         try{
@@ -35,18 +35,18 @@ public class Question1{
             OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
             out.write(parameter);
             out.close();
-
             con.connect();
 
 
-            final InputStream in = con.getInputStream();
-            final InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
-            final BufferedReader bufReader = new BufferedReader(inReader);
-
-            String line = null;
-            while((line = bufReader.readLine()) != null) {
-                System.out.println(line);
-            }
+            try ( InputStream in = con.getInputStream();
+                    InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
+                    BufferedReader bufReader = new BufferedReader(inReader)) {
+                  String line = null;
+                  while((line = bufReader.readLine()) != null) {
+                      System.out.println(line);
+                  }
+              } catch (IOException e ){
+              }
 
 
         }catch (MalformedURLException e1) {
