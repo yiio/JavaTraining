@@ -20,7 +20,7 @@ public class Question1 {
         Path filePath2 = Paths.get("C:\\TechTraining\\resources\\salesList.csv");
         Path filePath3 = Paths.get("C:\\TechTraining\\resources\\salesPrice.csv");
 
-        Map<String, Integer> priceMap = new HashMap<>();
+        Map<String, SalesItem> priceMap = new HashMap<>();
         Map<String, Integer> dateSumMap = new TreeMap<String, Integer>();
 
         // コードと単価の対応表を作る
@@ -35,7 +35,7 @@ public class Question1 {
                 SalesItem si = new SalesItem();
                 si.property = line.split(",");
                 si.makeItem();
-                priceMap.put(si.code, si.price);
+                priceMap.put(si.code, si);// 修正箇所
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class Question1 {
 
             // 日ごとの売り上げの計算
             for (String[] cols : salesList) {
-                int sum1 = priceMap.get(cols[1]) * Integer.parseInt(cols[2]);
+                int sum1 = priceMap.get(cols[1]).price * Integer.parseInt(cols[2]);// 修正箇所
                 if (calDate.equals(cols[0])) {
                     if (dateSumMap.containsKey(cols[0])) {
                         int sum2 = dateSumMap.get(cols[0]);
