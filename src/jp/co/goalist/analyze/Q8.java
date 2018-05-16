@@ -1,4 +1,4 @@
-package jp.co.goalist.analyze;
+ package jp.co.goalist.analyze;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
