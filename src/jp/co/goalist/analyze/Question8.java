@@ -16,7 +16,28 @@ import java.util.Map;
 public class Question8 {
 
     public static void main(String[] args) {
-        // 商品マスタから、商品コードと商品名や単価などの情報との対応表を作る
+        try {
+            // 商品マスタから、商品コードと商品名や単価などの情報との対応表を作る
+            Map<String, Map<String, String>> codeItemMap = makeCodeItemMap();
+
+            // 売り上げデータから、販売日と売り上げ額の対応表を作る
+            Map<String, Integer> dateSalesMap = makeDateSalesMap(codeItemMap);
+
+            // 結果を出力
+            Path outFilePath = Paths.get("/Users/yiio/Downloads/answer.csv"); // 書き込み対象ファイルの場所を指定
+            Files.deleteIfExists(outFilePath); // 既に存在してたら削除
+            Files.createFile(outFilePath); // ファイル作成
+            generateSalesCsv(dateSalesMap, outFilePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 商品マスタから、商品コードと商品名や単価などの情報との対応表を作って返却
+     */
+    private static Map<String, Map<String, String>> makeCodeItemMap() throws IOException {
         Map<String, Map<String, String>> codeItemMap = new HashMap<String, Map<String, String>>(); // key: 商品コード, value: (key: 要素名, value: 内容)
         Path itemFilePath = Paths.get("/Users/yiio/workspace/resources/salesItem.csv");
         try (BufferedReader br = Files.newBufferedReader(itemFilePath)) {
@@ -33,10 +54,15 @@ public class Question8 {
                 codeItemMap.put(itemMap.get("商品コード"), itemMap);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
+        return codeItemMap;
+    }
 
-        // 売り上げデータから、販売日と売り上げ額の対応表を作る
+    /**
+     * 売り上げデータから、販売日と売り上げ額の対応表を作って返却
+     */
+    private static Map<String, Integer> makeDateSalesMap(Map<String, Map<String, String>> codeItemMap) throws IOException {
         Map<String, Integer> dateSalesMap = new HashMap<String, Integer>();
         Path salesFilePath = Paths.get("/Users/yiio/workspace/resources/salesList.csv");
         try (BufferedReader br = Files.newBufferedReader(salesFilePath)) {
@@ -72,17 +98,15 @@ public class Question8 {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
+        return dateSalesMap;
+    }
 
-        // 結果を出力
-        Path outFilePath = Paths.get("/Users/yiio/Downloads/answer.csv"); // 書き込み対象ファイルの場所を指定
-        try {
-            Files.deleteIfExists(outFilePath); // 既に存在してたら削除
-            Files.createFile(outFilePath); // ファイル作成
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * 売り上げデータをCSVに出力
+     */
+    private static void generateSalesCsv(Map<String, Integer> dateSalesMap, Path outFilePath) throws IOException {
         try (BufferedWriter bw = Files.newBufferedWriter(outFilePath)) {
             // ヘッダ行を作成
             String header = "販売日,売上総額";
@@ -111,9 +135,8 @@ public class Question8 {
                 cal.add(Calendar.DATE, 1);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
-
     }
 
 }
