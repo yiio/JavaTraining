@@ -17,7 +17,29 @@ import java.util.Map;
 public class Question9 {
 
     public static void main(String[] args) {
-        // 商品マスタから、商品コードと商品名や単価などの情報との対応表を作る
+        try {
+            // 商品マスタから、商品コードと商品名や単価などの情報との対応表を作る
+            Map<String, Map<String, String>> codeItemMap = makeCodeItemMap();
+
+            // 商品価格改定表から、価格改定日や単価などの情報を取り出す
+            // 価格改定情報を取り出したリストから、商品コードごとに価格改定日や単価などの情報リストを持つマップを作る
+            Map<String, List<Map<String, String>>> codePricesMap = makeCodePricesMap();
+
+            // 売り上げデータから、販売日と売り上げ額の対応表を作る
+            Map<String, Integer> dateSalesMap = makeDateSalesMap(codeItemMap, codePricesMap);
+
+            // 結果を出力
+            Path outFilePath = Paths.get("/Users/yiio/Downloads/answer.csv"); // 書き込み対象ファイルの場所を指定
+            Files.deleteIfExists(outFilePath); // 既に存在してたら削除
+            Files.createFile(outFilePath); // ファイル作成
+            generateSalesCsv(dateSalesMap, outFilePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Map<String, Map<String, String>> makeCodeItemMap() throws IOException {
         Map<String, Map<String, String>> codeItemMap = new HashMap<String, Map<String, String>>(); // key: 商品コード, value: (key: 要素名, value: 内容)
         Path itemFilePath = Paths.get("/Users/yiio/workspace/resources/salesItem.csv");
         try (BufferedReader br = Files.newBufferedReader(itemFilePath)) {
@@ -34,11 +56,12 @@ public class Question9 {
                 codeItemMap.put(itemMap.get("商品コード"), itemMap);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
+        return codeItemMap;
+    }
 
-        // 商品価格改定表から、価格改定日や単価などの情報を取り出す
-        // 価格改定情報を取り出したリストから、商品コードごとに価格改定日や単価などの情報リストを持つマップを作る
+    private static Map<String, List<Map<String, String>>> makeCodePricesMap() throws IOException {
         Map<String, List<Map<String, String>>> codePricesMap = new HashMap<String, List<Map<String, String>>>();
         Path priceFilePath = Paths.get("/Users/yiio/workspace/resources/salesPrice.csv");
         try (BufferedReader br = Files.newBufferedReader(priceFilePath)) {
@@ -64,10 +87,13 @@ public class Question9 {
                 codePricesMap.put(code, valueList);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
+        return codePricesMap;
+    }
 
-        // 売り上げデータから、販売日と売り上げ額の対応表を作る
+    private static Map<String, Integer> makeDateSalesMap(Map<String, Map<String, String>> codeItemMap,
+            Map<String, List<Map<String, String>>> codePricesMap) throws IOException {
         Map<String, Integer> dateSalesMap = new HashMap<String, Integer>();
         Path salesFilePath = Paths.get("/Users/yiio/workspace/resources/salesList.csv");
         try (BufferedReader br = Files.newBufferedReader(salesFilePath)) {
@@ -113,17 +139,12 @@ public class Question9 {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
+        return dateSalesMap;
+    }
 
-        // 結果を出力
-        Path outFilePath = Paths.get("/Users/yiio/Downloads/answer.csv"); // 書き込み対象ファイルの場所を指定
-        try {
-            Files.deleteIfExists(outFilePath); // 既に存在してたら削除
-            Files.createFile(outFilePath); // ファイル作成
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private static void generateSalesCsv(Map<String, Integer> dateSalesMap, Path outFilePath) throws IOException {
         try (BufferedWriter bw = Files.newBufferedWriter(outFilePath)) {
             // ヘッダ行を作成
             String header = ("\"販売日\",\"売上総額\"");
@@ -153,9 +174,8 @@ public class Question9 {
                 cal.add(Calendar.DATE, 1);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
-
     }
 
 }
