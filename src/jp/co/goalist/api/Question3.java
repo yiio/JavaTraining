@@ -30,7 +30,7 @@ public class Question3 {
                                     + "\"message_id\":\"([0-9]*?)\"," //group8:メッセージID
                                     + "\"body\":\"(.*?)\"," //group9:メッセージ内容
                                     + "\"limit_time\":([0-9]*?)," //group10:期限
-                                    + "\"status\":\"(.*?)\"\\}"; //group11:状態（完了フラグ)
+                                    + "\"status\":\"(.*?)\"\\}"; //group11:完了フラグ
 
 
     public static void main(String[] args) {
@@ -41,7 +41,7 @@ public class Question3 {
 
      //status=doneのタスクを取得
         String strUrl = "https://api.chatwork.com/v2/rooms/105172471/tasks?" +"status=done";
-        String data = null;
+        String data1 = null;
 
 
         try {
@@ -49,7 +49,7 @@ public class Question3 {
             URL url = new URL(strUrl);
             urlConn = (HttpURLConnection) url.openConnection();
             urlConn.setRequestMethod("GET");
-            urlConn.setDoOutput(false);  //入力用のURL接続なので、falseに設定
+            urlConn.setDoOutput(false);  //入力用の接続なのでfalse
             urlConn.setRequestProperty("X-ChatWorkToken", apiToken);
 
             urlConn.connect();
@@ -60,17 +60,12 @@ public class Question3 {
             if (status == HttpURLConnection.HTTP_OK) {  //通信成功
 
                 InputStream input = urlConn.getInputStream(); //入力ストリームを取得
-                InputStreamReader in = new InputStreamReader(input,"UTF-8");  //バイトストリームをUTF-8の文字ストリームに変換(よくわかってません）
+                InputStreamReader in = new InputStreamReader(input,"UTF-8");  //バイトストリームを文字ストリームに変換する
                 BufferedReader br = new BufferedReader(in);
 
-                String line;
+                String line = br.readLine();
+                data1 = line;
 
-                while((line=br.readLine()) != null) {
-
-
-                    data = line;
-
-                }
 
             }else{
                 System.out.println(status);
@@ -91,11 +86,12 @@ public class Question3 {
 
         //3秒待つ
         try {
+
             Thread.sleep(3000);
 
-            }catch (InterruptedException e1){
-                e1.printStackTrace();
-            }
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
 
 
@@ -121,30 +117,26 @@ public class Question3 {
                 InputStreamReader in = new InputStreamReader(input,"UTF-8");
                 BufferedReader br = new BufferedReader(in);
 
-                String line;
+                String line = br.readLine();
+                data2 = line;
 
-                while((line=br.readLine()) != null) {
 
-
-                    data2 = line;
-
-                }
 
             }else{
                 System.out.println(status);
             }
 
-            }catch (MalformedURLException e) {
-                e.printStackTrace();
-            }catch (ProtocolException e) {
-                e.printStackTrace();
-            }catch (IOException e){
-                e.printStackTrace();
-            }finally{
-                if(urlConn != null){
-                    urlConn.disconnect();
-                }
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        }catch (ProtocolException e) {
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally{
+            if(urlConn != null){
+                urlConn.disconnect();
             }
+        }
 
 
         Path filePath = Paths.get("c:/TechTraining/resources/task.csv"); // 書き込み対象ファイルの場所を指定
@@ -165,26 +157,36 @@ public class Question3 {
             //System.out.println("タスクID,タスク担当者名,タスク登録者名,期日,メッセージ内容,完了フラグ");
             bw.newLine();
 
-            Pattern p = Pattern.compile(pattern);
-            Matcher m = p.matcher(data); //patternとマッチさせる文字列を、status=doneのタスク情報に設定
+            String data = data1 + data2; //openのタスク+doneのタスク
+            Pattern p = Pattern.compile(pattern); //正規表現パターン
+            Matcher m = p.matcher(data);
+
+
 
             //status=doneのタスク情報を書き込み
             while (m.find()) {
 
-                Date limit = new Date((Long.parseLong(m.group(10))*1000)); //UNIXTIMEを日付に変換
+                Date limit = new Date(Long.parseLong(convert(m.group(10)))*1000); //UNIXTIMEを日付に変換
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd"); //期日を表示する形式を設定
+
+                String taskId = m.group(1); //タスクID
+                String name1 = convert(m.group(3)); //タスク担当者名
+                String name2 = convert(m.group(6)); //タスク登録者名
+                String date = sdf.format(limit); //期日
+                String text = convert(m.group(9)); //メッセージ内容
+                String status = m.group(11); //完了フラグ
 
 
                 //期限が設定されていない場合
                 if(Long.parseLong(m.group(10)) == 0) {
-                    bw.write(m.group(1) + "," + convert(m.group(3)) + "," + convert(m.group(6)) + "," + "なし" + ","  + convert(m.group(9)) + "," + m.group(11));
-                    //System.out.println(m.group(1) + "," + convert(m.group(3)) + "," + convert(m.group(6)) + "," + "なし" + ","  + convert(m.group(9)) + "," + m.group(11));
+                    bw.write(taskId + "," + name1 + "," + name2 + "," + "なし" + ","  + text + "," + status);
+                    //System.out.println(taskId + "," + name1 + "," + name2 + "," + "なし" + ","  + text + "," + status);
                     bw.newLine();
 
                 //期限が設定されている場合
                 }else {
-                    bw.write(m.group(1) + "," + convert(m.group(3)) + "," + convert(m.group(6)) + "," + sdf.format(limit) + "," + convert(m.group(9)) + "," + m.group(11));
-                    //System.out.println(m.group(1) + "," + convert(m.group(3)) + "," + convert(m.group(6)) + "," + sdf.format(limit) + "," + convert(m.group(9)));
+                    bw.write(taskId + "," + name1 + "," + name2 + "," + date + ","  + text + "," + status);
+                    //System.out.println(taskId + "," + name1 + "," + name2 + "," + date + ","  + text + "," + status);
                     bw.newLine();
                 }
 
@@ -193,20 +195,6 @@ public class Question3 {
 
 
 
-            m = p.matcher(data2); //patternとマッチさせる文字列を、status=openのタスク情報に設定
-
-            //status=openのタスク情報を書き込み
-            while (m.find()) {
-
-                Date limit = new Date((Long.parseLong(m.group(10))*1000)); //UNIXTIMEを日付に変換
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd"); //期日を表示する形式を設定
-
-
-                bw.write(m.group(1) + "," + convert(m.group(3)) + "," + convert(m.group(6)) + "," + sdf.format(limit) + "," + convert(m.group(9)) + "," + m.group(11));
-                //System.out.println(m.group(1) + "," + convert(m.group(3)) + "," + convert(m.group(6)) + "," + sdf.format(limit) + "," + convert(m.group(9)));
-                bw.newLine();
-
-            }
 
 
         } catch (IOException e) {
@@ -218,7 +206,7 @@ public class Question3 {
 
     }
 
-    //unicode→UTF-8へ変換
+    //unicode→UTF-8
     private static String convert(String unicode){
 
         String ret = unicode;
