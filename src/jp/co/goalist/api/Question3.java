@@ -20,12 +20,13 @@ import java.util.List;
 public class Question3 {
     public static void main(String[] args) {
         String strUrl = "https://api.chatwork.com/v2/rooms/105172471/tasks?";
-        String api = "c9cdd46c28ad3531978660bc13a8fe45";
+        String api = "ひみつ";
         HttpURLConnection connection = null;
         BufferedReader reader = null;
 
         List<String> list = new ArrayList<>();
 
+        // タスク一覧の取得
         try {
             URL url = new URL(strUrl);
             connection = (HttpURLConnection) url.openConnection();
@@ -62,9 +63,9 @@ public class Question3 {
             }
         }
 
+        // タスク内容の取り出し
         String taskContents;
         List<String> taskList = new ArrayList<>();
-
         for (int i = 1; i < list.size(); i++) {
             String task = list.get(i);
             Moji m = new Moji();
@@ -94,6 +95,7 @@ public class Question3 {
 
 }
 
+// タスク内容を取り出すためのあれこれ
 class Moji {
     String task_id;
     String name;
@@ -102,6 +104,7 @@ class Moji {
     String message;
     String status;
 
+    // JSONデータから必要な情報を取り出す
     void split(String task) {
         this.task_id = task.substring(0, task.indexOf(","));
         task = task.substring(task.indexOf(this.task_id) + this.task_id.length());
@@ -115,11 +118,13 @@ class Moji {
         task = task.substring(task.indexOf(this.date) + this.date.length());
         this.status = task.substring(task.indexOf(":\"") + 2, task.indexOf("\"}"));
 
+        // Unicodeを文字に変換する
         this.name = toText(this.name);
         this.assigned_name = toText(this.assigned_name);
         this.message = toText(this.message);
     }
 
+    // 文字変換のためのメソッド
     String toText(String unicode) {
         String[] codeStrs = unicode.split("\\\\u");
         int[] codePoints = new int[codeStrs.length - 1];
