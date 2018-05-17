@@ -150,7 +150,7 @@ public class Question3 {
         }
 
 
-        //ファイルに書き込み
+        //タスク情報をファイルに書き込む
         try (BufferedWriter bw = Files.newBufferedWriter(filePath)) {
 
             bw.write("タスクID,タスク担当者名,タスク登録者名,期日,メッセージ内容,完了フラグ"); //ヘッダ
@@ -158,13 +158,11 @@ public class Question3 {
             bw.newLine();
 
             String data = data1 + data2; //openのタスク+doneのタスク
-            Pattern p = Pattern.compile(pattern); //正規表現パターン
-            Matcher m = p.matcher(data);
+            Pattern p = Pattern.compile(pattern); //正規表現パターンをコンパイル
+            Matcher m = p.matcher(data); //タスク情報と正規表現パターンをマッチ
 
 
-
-            //status=doneのタスク情報を書き込み
-            while (m.find()) {
+            while (m.find()) { //パターンが見つかる間
 
                 Date limit = new Date(Long.parseLong(convert(m.group(10)))*1000); //UNIXTIMEを日付に変換
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd"); //期日を表示する形式を設定
