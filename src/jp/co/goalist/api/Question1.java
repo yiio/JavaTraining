@@ -105,10 +105,10 @@ public class Question1 {
             if (status == HttpURLConnection.HTTP_OK) {
                 System.out.println("done!");
             } else {
-                try (InputStream in = con.getInputStream();
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));) {
+                try (InputStream is = con.getInputStream();
+                        BufferedReader br = new BufferedReader(new InputStreamReader(is));) {
                     String line;
-                    while ((line = reader.readLine()) != null) {
+                    while ((line = br.readLine()) != null) {
                         System.out.println(line);
                     }
                 }
