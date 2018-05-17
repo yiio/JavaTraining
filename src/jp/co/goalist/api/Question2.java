@@ -19,26 +19,26 @@ public class Question2 {
         try {
 
 
-        URL url = new URL(strUrl);
+            URL url = new URL(strUrl);
 
-        String enc = URLEncoder.encode(post, "UTF-8"); //UTF-8を使用して文字列をエンコード
+            String enc = URLEncoder.encode(post, "UTF-8"); //UTF-8を使用して文字列をエンコード
 
 
-        String massage = "body=" + enc +"&limit=" + limit + "&to_ids=2997278";
-        urlConn = (HttpURLConnection) url.openConnection();
-        urlConn.setRequestMethod("POST");
-        urlConn.setDoOutput(true); //出力用の接続なのでtrue
-        urlConn.setRequestProperty("X-ChatWorkToken", apiToken);
+            String massage = "body=" + enc +"&limit=" + limit + "&to_ids=2997278";
+            urlConn = (HttpURLConnection) url.openConnection();
+            urlConn.setRequestMethod("POST");
+            urlConn.setDoOutput(true); //出力用の接続なのでtrue
+            urlConn.setRequestProperty("X-ChatWorkToken", apiToken);
 
-        OutputStreamWriter output = new OutputStreamWriter(urlConn.getOutputStream()); //文字ストリームをバイトストリームに変換
-        output.write(massage); //書き込み
-        output.close();
+            OutputStreamWriter output = new OutputStreamWriter(urlConn.getOutputStream()); //文字ストリームをバイトストリームに変換
+            output.write(massage); //書き込み
+            output.close();
 
-        urlConn.connect();
+            urlConn.connect();
 
-        int status = urlConn.getResponseCode();
+            int status = urlConn.getResponseCode();
 
-        System.out.println("HTTP STATUS:" + status);
+            System.out.println("HTTP STATUS:" + status);
 
 
 
