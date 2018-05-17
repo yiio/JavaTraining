@@ -25,7 +25,7 @@ public class Question1 {
 
     public static void main(String[] args) {
         String token = "";
-        if (args.length == 1) {
+        if (args.length == 1) { // 実行時の引数でトークンを渡すようにしてみた
             token = args[0];
         }
 
@@ -47,9 +47,7 @@ public class Question1 {
 
         // javaのデフォルトhttpクライアントを使う方法
         postWithHttpURLCon(token, url, msg);
-
     }
-
 
     private static void postWithApacheLib(String token, String url, String msg) {
         HttpPost post = new HttpPost(url);
