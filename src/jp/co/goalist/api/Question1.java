@@ -40,7 +40,7 @@ public class Question1 {
             System.out.println("しんでしまうとはなさけない");
             e.printStackTrace();
             return;
-        };
+        }
 
         // apacheのライブラリを使う方法
         postWithApacheLib(token, url, msg);
