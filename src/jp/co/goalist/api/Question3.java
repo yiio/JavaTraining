@@ -35,7 +35,7 @@ public class Question3 {
 
     public static void main(String[] args) {
 
-        String apiToken = ("c9cdd46c28ad3531978660bc13a8fe45");
+        String apiToken = ("キー");
         HttpURLConnection urlConn = null;
 
 
@@ -69,7 +69,7 @@ public class Question3 {
                 input.close();
                 in.close();
                 br.close();
-                
+
 
             }else{
                 System.out.println(status);
@@ -185,13 +185,13 @@ public class Question3 {
                 //期限が設定されていない場合
                 if(Long.parseLong(m.group(10)) == 0) {
                     bw.write(taskId + "," + name1 + "," + name2 + "," + "なし" + ","  + text + "," + status);
-                    System.out.println(taskId + "," + name1 + "," + name2 + "," + "なし" + ","  + text + "," + status);
+                    //System.out.println(taskId + "," + name1 + "," + name2 + "," + "なし" + ","  + text + "," + status);
                     bw.newLine();
 
                 //期限が設定されている場合
                 }else {
                     bw.write(taskId + "," + name1 + "," + name2 + "," + date + ","  + text + "," + status);
-                    System.out.println(taskId + "," + name1 + "," + name2 + "," + date + ","  + text + "," + status);
+                    //System.out.println(taskId + "," + name1 + "," + name2 + "," + date + ","  + text + "," + status);
                     bw.newLine();
                 }
 
