@@ -20,31 +20,33 @@ public class Question2 {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 7);
         long utc = cal.getTimeInMillis();
-        String limit = String.valueOf(utc).substring(0,10);
+        String limit = String.valueOf(utc).substring(0, 10);
 
         try {
-
             URL url = new URL(strUrl);
             connection = (HttpURLConnection) url.openConnection();
-
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
             connection.setRequestProperty("X-ChatWorkToken", api);
-            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-
-            String task = "body=タスクだよ！&limit=" + limit + "&to_ids=2997226";
-            out.write(task);
-            out.close();
+            try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+                String task = "body=美味しい水も必要。&limit=" + limit + "&to_ids=2997226";
+                out.write(task);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
 
             connection.connect();
 
-            InputStream in = connection.getInputStream();
-            InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
-            BufferedReader bufReader = new BufferedReader(inReader);
+            try (InputStream in = connection.getInputStream()) {
+                InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
+                BufferedReader bufReader = new BufferedReader(inReader);
 
-            String line = null;
-            while ((line = bufReader.readLine()) != null) {
-                System.out.println(line);
+                String line = null;
+                while ((line = bufReader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
 
         } catch (MalformedURLException e1) {
@@ -58,7 +60,5 @@ public class Question2 {
                 connection.disconnect();
             }
         }
-
     }
-
 }
