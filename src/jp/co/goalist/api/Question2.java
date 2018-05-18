@@ -1,6 +1,7 @@
 package jp.co.goalist.api;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -30,22 +31,21 @@ public class Question2 {
             urlConn.setDoOutput(true); //出力用の接続なのでtrue
             urlConn.setRequestProperty("X-ChatWorkToken", apiToken);
 
-        }catch (IOException e) {
-            System.out.println(e);
-        }
-
-        try(OutputStreamWriter output = new OutputStreamWriter(urlConn.getOutputStream())) { //文字ストリームをバイトストリームに変換){
-
-            output.write(message); //書き込み
-            output.close();
-
-            urlConn.connect();
-
-            int status = urlConn.getResponseCode();
-
-            System.out.println("HTTP STATUS:" + status);
 
 
+            try(OutputStream out = urlConn.getOutputStream();
+                    OutputStreamWriter output = new OutputStreamWriter(out)) { //文字ストリームをバイトストリームに変換
+
+                output.write(message); //書き込み
+                output.close();
+
+                urlConn.connect();
+
+                int status = urlConn.getResponseCode();
+
+                System.out.println("HTTP STATUS:" + status);
+
+            }
 
 
         }catch (IOException e) {
@@ -53,7 +53,9 @@ public class Question2 {
         }finally {
             if(urlConn != null) {
                 urlConn.disconnect();
+
             }
         }
+
     }
 }
