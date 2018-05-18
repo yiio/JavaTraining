@@ -37,10 +37,9 @@ public class Question2 {
 
             connection.connect();
 
-            try (InputStream in = connection.getInputStream()) {
-                InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
-                BufferedReader bufReader = new BufferedReader(inReader);
-
+            try (InputStream in = connection.getInputStream();
+                    InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
+                    BufferedReader bufReader = new BufferedReader(inReader);) {
                 String line = null;
                 while ((line = bufReader.readLine()) != null) {
                     System.out.println(line);
