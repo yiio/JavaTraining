@@ -19,7 +19,6 @@ public class Question2 {
 
         try {
 
-
             URL url = new URL(strUrl);
 
             String enc = URLEncoder.encode(post, "UTF-8"); //UTF-8を使用して文字列をエンコード
@@ -30,26 +29,25 @@ public class Question2 {
             urlConn.setRequestMethod("POST");
             urlConn.setDoOutput(true); //出力用の接続なのでtrue
             urlConn.setRequestProperty("X-ChatWorkToken", apiToken);
+            urlConn.connect(); //接続開始
+            int status = urlConn.getResponseCode();
 
+            if (status == HttpURLConnection.HTTP_OK) { //通信成功の場合
 
+                try(OutputStream out = urlConn.getOutputStream();  //OutputStreamWriterを閉じるためのtry-with-resources文
+                        OutputStreamWriter output = new OutputStreamWriter(out)) { //文字ストリームをバイトストリームに変換
 
-            try(OutputStream out = urlConn.getOutputStream();
-                    OutputStreamWriter output = new OutputStreamWriter(out)) { //文字ストリームをバイトストリームに変換
+                    output.write(message); //書き込み
 
-                output.write(message); //書き込み
-                output.close();
+                }
 
-                urlConn.connect();
-
-                int status = urlConn.getResponseCode();
-
-                System.out.println("HTTP STATUS:" + status);
-
+            }else{ //通信失敗の場合、ステータスを表示
+                System.out.println(status);
             }
-
 
         }catch (IOException e) {
             System.out.println(e);
+
         }finally {
             if(urlConn != null) {
                 urlConn.disconnect();
