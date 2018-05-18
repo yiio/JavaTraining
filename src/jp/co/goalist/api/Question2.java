@@ -13,7 +13,7 @@ public class Question2 {
         String post = "お昼行ってきます";
         int limit = 1526914800;
         String apiToken = "キー";
-
+        String message = null;
 
 
         try {
@@ -24,14 +24,19 @@ public class Question2 {
             String enc = URLEncoder.encode(post, "UTF-8"); //UTF-8を使用して文字列をエンコード
 
 
-            String massage = "body=" + enc +"&limit=" + limit + "&to_ids=2997278";
+            message = "body=" + enc +"&limit=" + limit + "&to_ids=2997278";
             urlConn = (HttpURLConnection) url.openConnection();
             urlConn.setRequestMethod("POST");
             urlConn.setDoOutput(true); //出力用の接続なのでtrue
             urlConn.setRequestProperty("X-ChatWorkToken", apiToken);
 
-            OutputStreamWriter output = new OutputStreamWriter(urlConn.getOutputStream()); //文字ストリームをバイトストリームに変換
-            output.write(massage); //書き込み
+        }catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try(OutputStreamWriter output = new OutputStreamWriter(urlConn.getOutputStream())) { //文字ストリームをバイトストリームに変換){
+
+            output.write(message); //書き込み
             output.close();
 
             urlConn.connect();
@@ -45,6 +50,10 @@ public class Question2 {
 
         }catch (IOException e) {
             System.out.println(e);
+        }finally {
+            if(urlConn != null) {
+                urlConn.disconnect();
+            }
         }
     }
 }

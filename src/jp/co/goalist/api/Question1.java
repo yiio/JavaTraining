@@ -12,7 +12,7 @@ public class Question1 {
         HttpURLConnection  urlConn = null;
         String post = "どうかな";
         String apiToken = "キー";
-
+        String message = null;
 
 
         try {
@@ -21,14 +21,19 @@ public class Question1 {
             URL url = new URL(strUrl);
 
             String enc = URLEncoder.encode(post, "UTF-8"); //UTF-8を使用して文字列をエンコード
-            String massage = "body=" + enc;
+            message = "body=" + enc;
             urlConn = (HttpURLConnection) url.openConnection();
             urlConn.setRequestMethod("POST");
             urlConn.setDoOutput(true); //出力用の接続なのでtrue
             urlConn.setRequestProperty("X-ChatWorkToken", apiToken);
 
-            OutputStreamWriter output = new OutputStreamWriter(urlConn.getOutputStream()); //文字ストリームをバイトストリームに変換
-            output.write(massage); //書き込み
+        }catch (IOException e) {
+            System.out.println(e);
+        }
+
+        try (OutputStreamWriter output = new OutputStreamWriter(urlConn.getOutputStream())) {//文字ストリームをバイトストリームに変換){
+
+            output.write(message); //書き込み
             output.close();
 
             urlConn.connect();
@@ -42,6 +47,10 @@ public class Question1 {
 
         }catch (IOException e) {
             System.out.println(e);
+        }finally {
+            if(urlConn != null) {
+                urlConn.disconnect();
+            }
         }
     }
 }
