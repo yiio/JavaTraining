@@ -22,39 +22,39 @@ public class Question1 {
         try {
             URL url = new URL(strUrl);
             connection = (HttpURLConnection) url.openConnection();
-
             connection.setDoOutput(true); // URL接続を出力用として使用, POSTを可能にする
             connection.setRequestMethod("POST");
             connection.setRequestProperty("X-ChatWorkToken", api); // ヘッダを設定
-            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream()); // POST用のOutputStreamを取得
 
-            String messageEnc = URLEncoder.encode(message, "UTF-8");
-            out.write("body=" + messageEnc); // データをPOSTする
-            out.close();
+            try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+                String messageEnc = URLEncoder.encode(message, "UTF-8");
+                out.write("body=" + messageEnc); // データをPOSTする
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             connection.connect();
 
-            InputStream in = connection.getInputStream();
-            InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
-            BufferedReader bufReader = new BufferedReader(inReader);
-
-            String line = null;
-            while ((line = bufReader.readLine()) != null) {
-                System.out.println(line);
+            try (InputStream in = connection.getInputStream()) {
+                InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
+                BufferedReader bufReader = new BufferedReader(inReader);
+                String line = null;
+                while ((line = bufReader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
-        } catch (ProtocolException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             if (connection != null) {
                 connection.disconnect();
             }
         }
-
     }
-
 }
