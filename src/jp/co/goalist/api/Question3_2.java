@@ -25,7 +25,7 @@ import org.json.JSONObject;
 public class Question3_2 {
     public static void main(String[] args) {
         String strUrl = "https://api.chatwork.com/v2/rooms/105172471/tasks?";
-        String api = "ひみつ";
+        String api = "ひ・み・つ";
         HttpURLConnection connection = null;
         BufferedReader reader = null;
 
