@@ -37,18 +37,19 @@ public class Question3 {
 
             int status = connection.getResponseCode();
             System.out.println("HTTPステータス:" + status);
-            InputStream in = connection.getInputStream();
-
             if (status == HttpURLConnection.HTTP_OK) {
-                in = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
-                    String[] cols = (line.split("\"task_id\":"));
-                    for (String task : cols) {
-                        list.add(task);
+                try (InputStream in = connection.getInputStream()) {
+                    reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.out.println(line);
+                        String[] cols = (line.split("\"task_id\":"));
+                        for (String task : cols) {
+                            list.add(task);
+                        }
                     }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
             }
         } catch (MalformedURLException e1) {
@@ -90,9 +91,7 @@ public class Question3 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 }
 
 // タスク内容を取り出すためのあれこれ
