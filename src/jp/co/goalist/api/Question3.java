@@ -22,7 +22,7 @@ public class Question3 {
         String strUrl = "https://api.chatwork.com/v2/rooms/105172471/tasks?";
         String api = "ひみつ";
         HttpURLConnection connection = null;
-        BufferedReader reader = null;
+
 
         List<String> list = new ArrayList<>();
 
@@ -38,8 +38,9 @@ public class Question3 {
             int status = connection.getResponseCode();
             System.out.println("HTTPステータス:" + status);
             if (status == HttpURLConnection.HTTP_OK) {
-                try (InputStream in = connection.getInputStream()) {
-                    reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+                try (InputStream in = connection.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));) {
+
                     String line;
                     while ((line = reader.readLine()) != null) {
                         System.out.println(line);
