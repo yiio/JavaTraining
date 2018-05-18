@@ -25,9 +25,8 @@ import org.json.JSONObject;
 public class Question3_2 {
     public static void main(String[] args) {
         String strUrl = "https://api.chatwork.com/v2/rooms/105172471/tasks?";
-        String api = "ひ・み・つ";
+        String api = "ひみつ";
         HttpURLConnection connection = null;
-        BufferedReader reader = null;
 
         List<String> taskList = new ArrayList<>();
 
@@ -46,10 +45,9 @@ public class Question3_2 {
             String line = null;
             if (status == HttpURLConnection.HTTP_OK) {
                 try (InputStream in = connection.getInputStream()) {
-                    reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
                     while ((line = reader.readLine()) != null) {
                         System.out.println(line);
-                        jsonData = line;// .substring(1, line.length() - 1);
                     }
 
                     // タスク内容の取り出し
@@ -77,6 +75,7 @@ public class Question3_2 {
             bw.write(header);
             bw.newLine();
             for (String task : taskList) {
+                System.out.println(task);
                 bw.write(task);
                 bw.newLine();
             }
