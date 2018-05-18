@@ -13,7 +13,7 @@ import java.net.URLEncoder;
 
 public class Question1 {
     public static void main(String[] args) {
-        String message = "Hello!"; // 出力するメッセージ
+        String message = "リソースを閉じるとは！"; // 出力するメッセージ
         String strUrl = "https://api.chatwork.com/v2/rooms/105172471/messages";
         String api = "ひみつ";
 
@@ -35,9 +35,9 @@ public class Question1 {
 
             connection.connect();
 
-            try (InputStream in = connection.getInputStream()) {
-                InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
-                BufferedReader bufReader = new BufferedReader(inReader);
+            try (InputStream in = connection.getInputStream();
+                    InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
+                    BufferedReader bufReader = new BufferedReader(inReader);) {
                 String line = null;
                 while ((line = bufReader.readLine()) != null) {
                     System.out.println(line);
