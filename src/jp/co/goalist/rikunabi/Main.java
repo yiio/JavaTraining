@@ -184,9 +184,10 @@ public class Main {
             num1 = entry.getValue();
             if (num2 != num1) {
                 rank++;
+                if (cnt >= 11) {
+                    break;
             }
-            if (cnt >= 11) {
-                break;
+
             }
             String name = entry.getKey();
             int number = entry.getValue();
