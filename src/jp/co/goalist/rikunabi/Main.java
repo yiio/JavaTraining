@@ -171,7 +171,6 @@ public class Main {
         for (Map.Entry<Integer, Integer> entry : rankMap.entrySet()) {
             rank += entry.setValue(rank);
         }
-        System.out.println(rankMap);
 
         // 比較関数Comparatorを使用してMap.Entryの値を比較する（降順）
         List<Entry<String, Integer>> list_entries = new ArrayList<Entry<String, Integer>>(numMap.entrySet());
@@ -229,7 +228,7 @@ public class Main {
         // 書き出し
         System.out.println("職種分類ごとの未経験者応募の割合\n");
         for (Entry<String, BigDecimal> entry : ratioMap.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
+            System.out.println(entry.getKey() + " : " + entry.getValue() + "%");
         }
 
     }
