@@ -56,20 +56,20 @@ public class Q1 {
             Map<String, Integer> rankMap = makeRankMap(cntMap);// (社名、順位)マップ
 
             List<Entry<String, Integer>> rankList = new ArrayList<Entry<String, Integer>>(rankMap.entrySet());
-            
+
             Collections.sort(rankList, new Comparator<Entry<String, Integer>>() {
                 public int compare(Entry<String, Integer> obj1, Entry<String, Integer> obj2) {
                     // 4. 昇順
                     return obj1.getValue().compareTo(obj2.getValue());
                 }
             });
-            
+
             // 5. ループで要素順に値を取得する
-            for(Entry<String, Integer> r : rankList) {
+            for (Entry<String, Integer> r : rankList) {
                 String company = r.getKey();
                 int rank = r.getValue();
                 int companySum = cntMap.get(company);
-                if (rank > 10) {
+                if (rank >= 10) {
                     continue;
                 }
                 System.out.println(rank + "位：" + company + ":" + companySum + "件");
@@ -78,6 +78,73 @@ public class Q1 {
 
             System.out.println();
 
+            // Q6 自由課題1 広告プランの割合
+
+            Map<String, Integer> planMap = makePlanMap(filePath);// (広告プラン,企業数)マップ
+            Map<String, String> priceMap = new HashMap<String, String>();// (広告プラン、お値段)マップ
+
+            // プランと値段の配列からマップをつくる
+            String[][] planPrices = { { "N1", "90000" }, { "N2", "140000" }, { "N3", "220000" }, { "N4", "400000" },
+                    { "N5", "720000" } };
+            for (int j = 0; j < planPrices.length; j++) {
+                priceMap.put(planPrices[j][0], planPrices[j][1]);
+            }
+
+            for (Map.Entry<String, Integer> planSum : planMap.entrySet()) {
+                String plan = planSum.getKey();
+                int sum = planSum.getValue();
+             int price = Integer.parseInt(priceMap.get(plan));
+        
+            System.out.println(price + "円のプラン(" + plan + ")を選んでいる企業は" + sum * 100 / allNumber + "％"+"("+sum+"社)");
+            System.out.println();
+            }
+            
+            
+            
+            //Q6 自由課題2 業種別比較
+            Map<String, Map<String,Integer>> jobPlanMap = makeJobPlanMap(filePath);// (業種,（プラン、件数)）マップ
+            Map<String, Integer> jobAllSumMap = new HashMap<String, Integer>();//（職種、合計件数）
+            try (BufferedReader br = Files.newBufferedReader(filePath)) {
+
+                String line = br.readLine();
+                
+
+                while ((line = br.readLine()) != null) {
+                  
+                    String[] cols = line.split(",");
+                    String job = cols[4];
+
+                   if (jobAllSumMap.containsKey(job)) {
+                        int sum = prefSumMap.get(job) + 1;
+                        jobAllSumMap.put(job, sum);
+                    } else {
+                        
+                        jobAllSumMap.put(job, 1);
+                        }
+                    }}catch (IOException e) {
+                        e.printStackTrace();
+                    }
+            
+            
+            
+            //業種の数だけ回す
+            for (Map.Entry<String, Integer> bar : jobAllowaceMap.entrySet()) {
+                String job = bar.getKey();
+                Map<String, Integer>jobSumMap = jobPlanMap.get(job);
+                for (Map.Entry<String, Integer> jobPlan : jobSumMap.entrySet()) {
+                String planOfJob = jobPlan.getKey();
+                if (planOfJob.contains("広告プラン")) {
+                    continue;
+                }
+           int price = Integer.parseInt(priceMap.get(planOfJob));
+                int jobPlanSum = jobPlan.getValue();
+                int jobAllSum = jobAllSumMap.get(job);
+                System.out.println(job+ "の" + price +"円のプランの件数は" + jobPlanSum +"件で"+jobAllSum);
+            }
+            }
+           
+            
+            System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,6 +170,7 @@ public class Q1 {
         catch (IOException e) {
             throw e;
         }
+
         return allNumber;
     }
 
@@ -133,7 +201,7 @@ public class Q1 {
         }
         return contractEmployee;
     }
-   
+
     // Q3
     private static Map<String, Integer> makePrefSumMap(Path filePath) throws IOException {
         Map<String, Integer> prefSumMap = new LinkedHashMap<String, Integer>();
@@ -267,12 +335,73 @@ public class Q1 {
                 if (comparedSum > sum) {
                     cnt++;
                 }
-                
+
             }
             int rankSum = 1 + cnt;
             rankMap.put(company, rankSum);
         }
 
         return rankMap;
+    }
+
+    // Q6
+    private static Map<String, Integer> makePlanMap(Path filePath) throws IOException {
+        Map<String, Integer> planMap = new HashMap<String, Integer>();
+
+        try (BufferedReader br = Files.newBufferedReader(filePath)) {
+            String line = br.readLine();
+
+            while ((line = br.readLine()) != null) {
+
+                String[] cols = line.split(",");
+                String plan = cols[13];
+                if (planMap.containsKey(plan)) {
+                    int sum = planMap.get(plan) + 1;
+                    planMap.put(plan, sum);
+                } else {
+                    planMap.put(plan, 1);
+                }
+
+            }
+            
+        }
+
+        catch (IOException e) {
+            throw e;
+        }
+        return planMap;
+
+    }
+
+    private static Map<String, Map<String, Integer>> makeJobPlanMap(Path filePath) throws IOException {
+        Map<String, Map<String,Integer>> jobPlanMap = new HashMap<String, Map<String,Integer>>();
+        Map<String, Integer> planSumMap = new HashMap<String, Integer>();// （プラン、件数）のマップ
+        try (BufferedReader br = Files.newBufferedReader(filePath)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                
+                
+                String[] cols = line.split(",");// 取り出したカンマ含みの行をを配列に変換
+                String plan = cols[13];// プラン
+                String job = cols[4]; //職種
+        if(jobPlanMap.containsKey(job)) {
+            if (planSumMap.containsKey(plan)) {
+                int sum = planSumMap.get(plan) + 1;
+                planSumMap.put(plan,sum);
+                jobPlanMap.put(job, planSumMap);
+            } else {
+                planSumMap.put(plan, 1);
+                jobPlanMap.put(job, planSumMap); 
+            }
+            
+            } else {
+                planSumMap.put(plan, 1);
+                jobPlanMap.put(job, planSumMap); 
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jobPlanMap;
     }
 }
