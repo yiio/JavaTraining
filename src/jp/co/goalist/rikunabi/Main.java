@@ -116,6 +116,7 @@ public class Main {
         printQ3();
         printQ4();
         printQ5();
+        printQ6();
         
     }
 
@@ -175,25 +176,42 @@ public class Main {
         
         // Œ‹‰Ê‚ğ•\¦
         System.out.println("‰Û‘è‚T");
-        int rank = 0;
-        int cnt = 0; // cnt‚ª10‚æ‚è‘å‚«‚­‚È‚Á‚½‚çI—¹
-        int num1;
-        int num2 = 0;
+        int rank = 0; // ‡ˆÊ
+        int cntNum = 0; // •\¦‚·‚éŠé‹Æ”B10‚æ‚è‘å‚«‚­‚È‚Á‚½‚çI—¹
+        int num1; // Šé‹Æ‚P‚ÌŒfÚ”
+        int num2 = 0; // Šé‹Æ‚Q‚ÌŒfÚ”
+        Map<Integer, Integer> tieMap = new HashMap<Integer, Integer>(); // ‡ˆÊ, “¯—¦‡ˆÊ‚ÌŠé‹Æ”
+        // Šé‹Æ‚P‚ÆŠé‹Æ‚Q‚ÌŒfÚ”‚ğ”äŠr‚µ‚Ä‚¢‚­
         for(Entry<String, Integer> entry : list_entries) {
-            cnt++;
+            cntNum++;
             num1 = entry.getValue();
-            if (num2 != num1) {
-                rank++;
-                if (cnt >= 11) {
-                    break;
-            }
-
-            }
             String name = entry.getKey();
             int number = entry.getValue();
-            System.out.println(rank + "ˆÊ@" + name + " : " + number + "Œ");
+            if (!tieMap.containsKey(rank)) {
+                tieMap.put(rank, 1);
+            }
+            
+            // Šé‹Æ‚P‚ÌŒfÚ”‚ÆŠé‹Æ‚Q‚ÌŒfÚ”‚ªˆá‚Á‚½‚çA‡ˆÊ‚ğ‚P‚Â‚¸‚ç‚·
+            if (num2 != num1) { // ‡ˆÊ‚ª‰º‚ª‚éê‡
+                if (cntNum >= 10) {
+                    break;
+                }
+                // “¯—¦‡ˆÊ‚ÌŠé‹Æ”‚Ì•ª‚¾‚¯ƒ‰ƒ“ƒN‚ğ‰º‚°‚éi“¯—¦‡ˆÊ‚ÌŠé‹Æ‚ª‚È‚¯‚ê‚Î‚P‚¾‚¯‰º‚ª‚éj
+                rank = rank + tieMap.get(rank);
+                System.out.println(rank + "ˆÊ@" + name + " : " + number + "Œ");
+            } else { // “¯—¦‡ˆÊ‚ª•À‚ñ‚Å‚¢‚éê‡;
+                System.out.println(rank + "ˆÊ@" + name + " : " + number + "Œ");
+                // “¯—¦‡ˆÊ‚ÌŠé‹Æ”‚ğXV
+                tieMap.put(rank, tieMap.get(rank) + 1);
+                
+            }
             num2 = entry.getValue();
         }
+    }
+    
+    // Q6 
+    private static void printQ6() {
+        
     }
 
 }
