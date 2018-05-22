@@ -21,7 +21,7 @@ public class Main {
         //Q2();
         //Q3();
         //Q4();
-        Q5();
+        //Q5();
         //Q6();
 
     }
@@ -255,14 +255,9 @@ public class Main {
         for (int x = 0; x < list.size(); x++) {
 
 
-            if (x >= 1) {
-
-
-
+            if (x >= 1) { //場合分けは、list.get(x-1)のため
 
                 if(list.get(x).getValue().compareTo(list.get(x-1).getValue()) == 0) {
-
-
 
                     System.out.println (rank + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
 
@@ -270,8 +265,6 @@ public class Main {
                 }else {
 
                     rank = count + 1;
-
-
                     System.out.println(count + 1 + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
 
 
@@ -279,7 +272,7 @@ public class Main {
 
                 count++;
 
-            }else {
+            }else { //x=0のとき
 
                 System.out.println(rank + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
                 count++;
@@ -308,9 +301,9 @@ public class Main {
             int indexOfPlan = headerList.indexOf("広告プラン");
             int indexOfPref = headerList.indexOf("エリア都道府県");
 
-            Map<String,Map<String, Integer>> prefMap = new TreeMap<>();
-            Map<String, Integer> countMap = new HashMap<>();
-            Map<String, Double> rateMap = new HashMap<>();
+            Map<String,Map<String, Integer>> prefMap = new TreeMap<>();  //<都道府県,Map<広告プラン,広告数>>
+            Map<String, Integer> countMap = new HashMap<>(); //<広告プラン,広告数>
+
 
             while((line = br.readLine()) != null) {
 
@@ -348,38 +341,29 @@ public class Main {
 
             }
 
-            Map<String, Integer> sumMap = new HashMap<>();
-            int sum = 0;
+
            for(String prefs: prefMap.keySet()) {
                //System.out.println(prefs + ":" + prefMap.get(prefs));
 
 
                if(prefMap.get(prefs).containsKey("N5")) {
-                 System.out.println(prefs + ":  " + (double)prefMap.get(prefs).get("N5") / countMap.get(prefs));
-
-
-               //if((prefMap.get(prefs).containsKey("N5")) && (prefMap.get(prefs).containsKey("N4"))) {
-                 //  System.out.println(prefs + ":  " + ((double)prefMap.get(prefs).get("N5") + (double)prefMap.get(prefs).get("N4")) / countMap.get(prefs));
-               //}
-
-
-
-
+                   System.out.println(prefs + ":  " + (double)prefMap.get(prefs).get("N5") / countMap.get(prefs));
 
                }
 
+
+               if((prefMap.get(prefs).containsKey("N5")) && (prefMap.get(prefs).containsKey("N4"))) {
+                   System.out.println(prefs + ":  " + ((double)prefMap.get(prefs).get("N5") + (double)prefMap.get(prefs).get("N4")) / countMap.get(prefs));
+               }
+
+
            }
-
-
-
-
-
-
 
 
         }catch (IOException e) {
             System.out.println(e);
         }
+
 
 
 
