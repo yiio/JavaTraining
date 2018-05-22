@@ -21,8 +21,8 @@ public class Main {
         //Q2();
         //Q3();
         //Q4();
-        //Q5();
-        Q6();
+        Q5();
+        //Q6();
 
     }
 
@@ -233,7 +233,7 @@ public class Main {
         }
 
 
-        //numberListをListに変換、valueでソート
+        //numberMapをListに変換、valueでソート
         List<Entry<String,Integer>> list = new ArrayList<Entry<String,Integer>>(numberMap.entrySet());
 
         Collections.sort(list, new Comparator<Entry<String, Integer>>() {
@@ -246,23 +246,48 @@ public class Main {
         });
 
         int rank = 1;
+        int count = 0;
 
-        //前のものと比べて件数が少ない場合のみ、順位に+1
+
+
+        //順位を算出
+
         for (int x = 0; x < list.size(); x++) {
+
+
             if (x >= 1) {
+
+
+
+
                 if(list.get(x).getValue().compareTo(list.get(x-1).getValue()) == 0) {
-                    System.out.println(rank + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
+
+
+
+                    System.out.println (rank + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
+
 
                 }else {
-                    rank++;
-                    System.out.println(rank + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
+
+                    rank = count + 1;
+
+
+                    System.out.println(count + 1 + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
+
 
                 }
-            }else {
-                System.out.println(rank + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
 
+                count++;
+
+            }else {
+
+                System.out.println(rank + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
+                count++;
             }
         }
+
+
+
 
     }
 
