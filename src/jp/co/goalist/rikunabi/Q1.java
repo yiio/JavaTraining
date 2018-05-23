@@ -297,7 +297,7 @@ public class Q1 {
                 allNumber++;
 
             }
-            allNumber = allNumber - 1;// ヘッダーを消す
+        
         }
 
         catch (IOException e) {
@@ -314,15 +314,11 @@ public class Q1 {
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
 
             String line = br.readLine();
-            int cnt = 0;// 何行目？
+           
 
             while ((line = br.readLine()) != null) {
-                cnt++;
                 String[] cols = line.split(",");
-                // ヘッダー処理
-                if (cnt == 1) {
-                    continue;
-                } else if (cols[8].equals("契約社員")) {
+                if (cols[8].equals("契約社員")) {
                     contractEmployee++;
 
                 }
@@ -353,17 +349,15 @@ public class Q1 {
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
 
             String line = br.readLine();
-            int cnt = 0;
+            
 
             while ((line = br.readLine()) != null) {
-                cnt++;
+          
                 String[] cols = line.split(",");
                 String numberPref = cols[6];
                 String pref = numberPref.substring(3);
 
-                if (cnt == 1) {
-                    continue;
-                } else if (prefSumMap.containsKey(pref)) {
+                 if (prefSumMap.containsKey(pref)) {
                     int sum = prefSumMap.get(pref) + 1;
                     prefSumMap.put(pref, sum);
                 }
@@ -385,16 +379,16 @@ public class Q1 {
 
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line = br.readLine();
-            int cnt = 0;
+            
 
             // ここではjobAllowanceMapの値は「すべての下限給与を足し合わせた額」
             while ((line = br.readLine()) != null) {
-                cnt++;
+                
                 String[] cols = line.split(",");
                 String job = cols[4];
                 String allowance = cols[11];
 
-                if (cnt == 1 || job.isEmpty() || allowance.isEmpty()) {
+                if (job.isEmpty() || allowance.isEmpty()) {
                     continue;
                 } else if (jobAllowanceMap.containsKey(job)) {
                     // おなじ職種が出てきた場合の処理
