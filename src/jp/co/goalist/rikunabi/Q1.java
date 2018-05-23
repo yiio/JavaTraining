@@ -43,8 +43,8 @@ public class Q1 {
             System.out.println();
 
             // Q4
-            Map<String, Integer> jobAllowaceMap = makeJobAllowanceMap(filePath);
-            for (Map.Entry<String, Integer> bar : jobAllowaceMap.entrySet()) {
+            Map<String, Integer> jobAllowanceMap = makeJobAllowanceMap(filePath);
+            for (Map.Entry<String, Integer> bar : jobAllowanceMap.entrySet()) {
                 String job = bar.getKey();
                 int allowance = bar.getValue();
                 System.out.println(job + "の月給下限金額の平均金額は" + String.format("%,d", allowance) + "円です");
@@ -93,57 +93,190 @@ public class Q1 {
             for (Map.Entry<String, Integer> planSum : planMap.entrySet()) {
                 String plan = planSum.getKey();
                 int sum = planSum.getValue();
-             int price = Integer.parseInt(priceMap.get(plan));
-        
-            System.out.println(price + "円のプラン(" + plan + ")を選んでいる企業は" + sum * 100 / allNumber + "％"+"("+sum+"社)");
-            System.out.println();
-            }
-            
-            
-            
-            //Q6 自由課題2 業種別比較
-            Map<String, Map<String,Integer>> jobPlanMap = makeJobPlanMap(filePath);// (業種,（プラン、件数)）マップ
-            Map<String, Integer> jobAllSumMap = new HashMap<String, Integer>();//（職種、合計件数）
-            try (BufferedReader br = Files.newBufferedReader(filePath)) {
+                int price = Integer.parseInt(priceMap.get(plan));
 
+                System.out.println(price + "円のプラン(" + plan + ")を選んでいる企業は" + sum + "％" + "(" + sum + "社)");
+                System.out.println();
+            }
+
+            // Q6 自由課題2 業種別比較
+            Map<String, Integer> jobPlanMap = makeJobPlanMap(filePath);// ((プラン,職種)、件数）リスト
+
+            Map<String, Integer> jobCountMap = new HashMap<String, Integer>();// 件数をカウントするマップ
+
+            try (BufferedReader br = Files.newBufferedReader(filePath)) {
                 String line = br.readLine();
-                
+                int cnt = 0;
 
                 while ((line = br.readLine()) != null) {
-                  
+                    cnt++;
                     String[] cols = line.split(",");
                     String job = cols[4];
+                    if (cnt == 1 || job.isEmpty()) {
+                        continue;
+                    } else if (jobCountMap.containsKey(job)) {
+                        // おなじ職種が出てきた場合の処理
+                        int sum = jobCountMap.get(job) + 1;
+                        jobCountMap.put(job, sum);
 
-                   if (jobAllSumMap.containsKey(job)) {
-                        int sum = prefSumMap.get(job) + 1;
-                        jobAllSumMap.put(job, sum);
                     } else {
-                        
-                        jobAllSumMap.put(job, 1);
-                        }
-                    }}catch (IOException e) {
-                        e.printStackTrace();
+                        // 初めて出てきた職種の処理
+                        jobCountMap.put(job, 1);
                     }
-            
-            
-            
-            //業種の数だけ回す
-            for (Map.Entry<String, Integer> bar : jobAllowaceMap.entrySet()) {
-                String job = bar.getKey();
-                Map<String, Integer>jobSumMap = jobPlanMap.get(job);
-                for (Map.Entry<String, Integer> jobPlan : jobSumMap.entrySet()) {
+
+                }
+
+            } catch (IOException e) {
+                throw e;
+            }
+
+            // 業種の数だけ回す
+
+            for (Map.Entry<String, Integer> jobPlan : jobPlanMap.entrySet()) {
                 String planOfJob = jobPlan.getKey();
+                String plan = planOfJob.substring(0, planOfJob.indexOf(":"));
+                String job = planOfJob.substring(planOfJob.indexOf(":") + 1);
+                // うしろと前で職種とプラン分ける
                 if (planOfJob.contains("広告プラン")) {
                     continue;
                 }
-           int price = Integer.parseInt(priceMap.get(planOfJob));
+
+                int price = Integer.parseInt(priceMap.get(plan));
                 int jobPlanSum = jobPlan.getValue();
-                int jobAllSum = jobAllSumMap.get(job);
-                System.out.println(job+ "の" + price +"円のプランの件数は" + jobPlanSum +"件で"+jobAllSum);
+                int jobAllSum = jobCountMap.get(job);
+                System.out.println("・" + price + "円のプランの件数は," + job + "で" + jobPlanSum + "件（"
+                        + jobPlanSum * 100 / jobAllSum + "％)");
+
             }
+
+            System.out.println();
+
+            Map<String, Integer> nomalMap = new TreeMap<String, Integer>();
+            Map<String, Integer> highMap = new TreeMap<String, Integer>();
+            int nomalCnt = 0;
+            int highCnt = 0;
+            String all = "全件数";
+            for (Map.Entry<String, Integer> jobPlan : jobPlanMap.entrySet()) {
+                String planOfJob = jobPlan.getKey();
+                String plan = planOfJob.substring(0, planOfJob.indexOf(":"));
+                String job = planOfJob.substring(planOfJob.indexOf(":") + 1);
+                // うしろと前で職種とプラン分ける
+                if (planOfJob.contains("広告プラン")) {
+                    continue;
+                }
+
+                int jobPlanSum = jobPlan.getValue();
+
+                if (plan.contains("N1") || plan.contains("N2") || plan.contains("N3")) {
+
+                    nomalCnt++;
+
+                    if (nomalMap.containsKey(job)) {
+                        int sum = nomalMap.get(job) + jobPlanSum;
+
+                        nomalMap.put(job, sum);
+                    } else {
+                        nomalMap.put(job, jobPlanSum);
+                    }
+
+                } else {
+                    highCnt++;
+
+                    if (highMap.containsKey(job)) {
+                        int sum = highMap.get(job) + jobPlanSum;
+                        highMap.put(job, sum);
+                    } else {
+                        highMap.put(job, jobPlanSum);
+                    }
+
+                }
+
             }
-           
-            
+
+            for (Map.Entry<String, Integer> nomalPlan : nomalMap.entrySet()) {
+                String job = nomalPlan.getKey();
+                int sum = nomalPlan.getValue();
+                if (job.contains("広告プラン")) {
+                    continue;
+                }
+
+                System.out.println("・通常プランにおいて、" + job + "の件数は" + sum + "件");
+
+            }
+            System.out.println();
+
+            for (Map.Entry<String, Integer> highPlan : highMap.entrySet()) {
+                String job = highPlan.getKey();
+                int sum = highPlan.getValue();
+                // うしろと前で職種とプラン分ける
+                if (job.contains("広告プラン")) {
+                    continue;
+                }
+
+                System.out.println("・高価格プランにおいて、" + job + "の件数は" + sum + "件");
+
+            }
+            System.out.println();
+
+            System.out.println();
+
+            // Q6自由課題3 給与下限平均額ランキング
+
+            Map<String, Integer> allowanceRankMap = makeAllowanceRankMap(jobAllowanceMap);
+
+            List<Entry<String, Integer>> allowanceRankList = new ArrayList<Entry<String, Integer>>(
+                    allowanceRankMap.entrySet());
+            Collections.sort(allowanceRankList, new Comparator<Entry<String, Integer>>() {
+                public int compare(Entry<String, Integer> ob1, Entry<String, Integer> ob2) {
+                    // 4. 昇順
+                    return ob1.getValue().compareTo(ob2.getValue());
+                }
+            });
+
+            for (Entry<String, Integer> jobRanking : allowanceRankList) {
+                String job = jobRanking.getKey();
+                int jobRank = jobRanking.getValue();
+                int allowance = jobAllowanceMap.get(job);
+                System.out.println(jobRank + "位：" + job + "：月給下限金額の平均金額" + String.format("%,d", allowance) + "円");
+            }
+            System.out.println();
+
+            Map<String, Integer> jobHighPlanRankMap = makeJobHighPlanRankMap(highMap);
+
+            List<Entry<String, Integer>> highPlanRankList = new ArrayList<Entry<String, Integer>>(
+                    jobHighPlanRankMap.entrySet());
+            Collections.sort(highPlanRankList, new Comparator<Entry<String, Integer>>() {
+                public int compare(Entry<String, Integer> obe1, Entry<String, Integer> obe2) {
+                    // 4. 昇順
+                    return obe1.getValue().compareTo(obe2.getValue());
+                }
+            });
+
+            for (Entry<String, Integer> highRanking : highPlanRankList) {
+                String job = highRanking.getKey();
+                int highRank = highRanking.getValue();
+                int sum = highMap.get(job);
+                System.out.println(highRank + "位：" + job + "、件数：" + sum + "件");
+            }
+            System.out.println();
+
+            Map<String, Integer> jobNomalPlanRankMap = makeJobNomalPlanRankMap(nomalMap);
+
+            List<Entry<String, Integer>> nomalPlanRankList = new ArrayList<Entry<String, Integer>>(
+                    jobNomalPlanRankMap.entrySet());
+            Collections.sort(nomalPlanRankList, new Comparator<Entry<String, Integer>>() {
+                public int compare(Entry<String, Integer> obe1, Entry<String, Integer> obe2) {
+                    // 4. 昇順
+                    return obe1.getValue().compareTo(obe2.getValue());
+                }
+            });
+
+            for (Entry<String, Integer> nomalRanking : nomalPlanRankList) {
+                String job = nomalRanking.getKey();
+                int nomalRank = nomalRanking.getValue();
+                int sum = nomalMap.get(job);
+                System.out.println(nomalRank + "位：" + job + "、件数：" + sum + "件");
+            }
             System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
@@ -346,7 +479,7 @@ public class Q1 {
 
     // Q6
     private static Map<String, Integer> makePlanMap(Path filePath) throws IOException {
-        Map<String, Integer> planMap = new HashMap<String, Integer>();
+        Map<String, Integer> planMap = new TreeMap<String, Integer>();
 
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
             String line = br.readLine();
@@ -363,7 +496,7 @@ public class Q1 {
                 }
 
             }
-            
+
         }
 
         catch (IOException e) {
@@ -373,35 +506,105 @@ public class Q1 {
 
     }
 
-    private static Map<String, Map<String, Integer>> makeJobPlanMap(Path filePath) throws IOException {
-        Map<String, Map<String,Integer>> jobPlanMap = new HashMap<String, Map<String,Integer>>();
-        Map<String, Integer> planSumMap = new HashMap<String, Integer>();// （プラン、件数）のマップ
+    private static Map<String, Integer> makeJobPlanMap(Path filePath) throws IOException {
+        Map<String, Integer> jobPlanMap = new TreeMap<String, Integer>();
+        // ((職種-プラン),件数)
+
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
-            String line;
+
+            String line = br.readLine();
+
             while ((line = br.readLine()) != null) {
-                
-                
-                String[] cols = line.split(",");// 取り出したカンマ含みの行をを配列に変換
-                String plan = cols[13];// プラン
-                String job = cols[4]; //職種
-        if(jobPlanMap.containsKey(job)) {
-            if (planSumMap.containsKey(plan)) {
-                int sum = planSumMap.get(plan) + 1;
-                planSumMap.put(plan,sum);
-                jobPlanMap.put(job, planSumMap);
-            } else {
-                planSumMap.put(plan, 1);
-                jobPlanMap.put(job, planSumMap); 
-            }
-            
-            } else {
-                planSumMap.put(plan, 1);
-                jobPlanMap.put(job, planSumMap); 
+                if (line.contains("取得日")) {
+                    continue;
+                }
+
+                String[] cols = line.split(",");
+                String job = cols[4];
+                String plan = cols[13];
+                String key = plan + ":" + job;
+                if (jobPlanMap.containsKey(key)) {
+                    int sum = jobPlanMap.get(key) + 1;
+                    jobPlanMap.put(key, sum);
+                } else {
+                    // {職種分類 広告プラン}を格納
+                    jobPlanMap.put(key, 1);
                 }
             }
+
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
+
         return jobPlanMap;
+    }
+
+    private static Map<String, Integer> makeAllowanceRankMap(Map<String, Integer> jobAllowanceMap) {
+
+        Map<String, Integer> allowanceRankMap = new HashMap<String, Integer>();
+        // ほかの会社と比較して、件数が少なかったら順位が増えていく
+        for (Map.Entry<String, Integer> jobs : jobAllowanceMap.entrySet()) {
+            int cnt = 0;// 順位に足す数をカウント
+            String job = jobs.getKey();
+            int allowance = jobs.getValue();
+            allowanceRankMap.put(job, 1);
+            for (Map.Entry<String, Integer> eachRank : jobAllowanceMap.entrySet()) {
+                int comparedSum = eachRank.getValue();// 他社の会社の件数
+                if (comparedSum > allowance) {
+                    cnt++;
+                }
+
+            }
+            int rankSum = 1 + cnt;
+            allowanceRankMap.put(job, rankSum);
+        }
+
+        return allowanceRankMap;
+    }
+
+    private static Map<String, Integer> makeJobHighPlanRankMap(Map<String, Integer> highMap) {
+        Map<String, Integer> jobHighPlanRankMap = new HashMap<String, Integer>();
+
+        for (Map.Entry<String, Integer> jobs : highMap.entrySet()) {
+            int cnt = 0;// 順位に足す数をカウント
+            String job = jobs.getKey();
+            int sum = jobs.getValue();
+            jobHighPlanRankMap.put(job, 1);
+            for (Map.Entry<String, Integer> eachRank : highMap.entrySet()) {
+                int comparedSum = eachRank.getValue();// 他社の会社の件数
+                if (comparedSum > sum) {
+                    cnt++;
+                }
+
+            }
+            int rankSum = 1 + cnt;
+            jobHighPlanRankMap.put(job, rankSum);
+        }
+
+        return jobHighPlanRankMap;
+
+    }
+
+    private static Map<String, Integer> makeJobNomalPlanRankMap(Map<String, Integer> nomalMap) {
+        Map<String, Integer> jobNomalPlanRankMap = new HashMap<String, Integer>();
+
+        for (Map.Entry<String, Integer> jobs : nomalMap.entrySet()) {
+            int cnt = 0;// 順位に足す数をカウント
+            String job = jobs.getKey();
+            int sum = jobs.getValue();
+            jobNomalPlanRankMap.put(job, 1);
+            for (Map.Entry<String, Integer> eachRank : nomalMap.entrySet()) {
+                int comparedSum = eachRank.getValue();// 他社の会社の件数
+                if (comparedSum > sum) {
+                    cnt++;
+                }
+
+            }
+            int rankSum = 1 + cnt;
+            jobNomalPlanRankMap.put(job, rankSum);
+        }
+
+        return jobNomalPlanRankMap;
+
     }
 }
