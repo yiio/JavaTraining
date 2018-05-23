@@ -51,12 +51,13 @@ public  class Question2 {
                     category = " ";
                 }
 
-                // 日時
-                String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
-
                 //ニュースのURL
                 String url = child.select("a").get(0).attr("href");
+                String year = url.substring(9,13);
                 url = rootUrl + url;
+
+                // 日時
+                String date =year + "/" + child.select("span.thumb-s__date").get(0).text();
 
                 String str = title + ","+ category + "," + date + "," + url  ;
                 System.out.println( str );
@@ -88,12 +89,13 @@ public  class Question2 {
                 category = " ";
             }
 
-            // 日時
-            String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
-
             //ニュースのURL
             String url = child.select("a").get(0).attr("href");
+            String year = url.substring(9,13);
             url = rootUrl + url;
+
+            // 日時
+            String date =year + "/" + child.select("span.thumb-s__date").get(0).text();
 
             String str = title + ","+ category + "," + date + "," + url  ;
             System.out.println( str );
@@ -124,12 +126,13 @@ public  class Question2 {
                 category = " ";
             }
 
-            // 日時
-            String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
-
             //ニュースのURL
             String url = child.select("a").get(0).attr("href");
+            String year = url.substring(9,13);
             url = rootUrl + url;
+
+            // 日時
+            String date =year + "/" + child.select("span.thumb-s__date").get(0).text();
 
             String str = title + ","+ category + "," + date + "," + url  ;
             System.out.println( str );
@@ -161,12 +164,13 @@ public  class Question2 {
                 category = " ";
             }
 
-            // 日時
-            String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
-
             //ニュースのURL
             String url = child.select("a").get(0).attr("href");
+            String year = url.substring(9,13);
             url = rootUrl + url;
+
+            // 日時
+            String date =year + "/" + child.select("span.thumb-s__date").get(0).text();
 
             String str = title + ","+ category + "," + date + "," + url  ;
             System.out.println( str );
@@ -198,12 +202,13 @@ public  class Question2 {
                 category = " ";
             }
 
-            // 日時
-            String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
-
             //ニュースのURL
             String url = child.select("a").get(0).attr("href");
+            String year = url.substring(9,13);
             url = rootUrl + url;
+
+            // 日時
+            String date =year + "/" + child.select("span.thumb-s__date").get(0).text();
 
             String str = title + ","+ category + "," + date + "," + url  ;
             System.out.println( str );
