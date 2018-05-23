@@ -49,7 +49,6 @@ public class Question3 {
                 e.printStackTrace();
             }
             String rootUrl = "http://news.mynavi.jp/list/headline/" + year + "/" + month + "/?page=" + i;
-            System.out.println(rootUrl);
             Document doc = Jsoup.connect(rootUrl).get();
             Element el = doc.select(
                     "div.container.container--top > div.body > main.main > section.box.box--top.box--line > div.thumb-s")
@@ -67,8 +66,7 @@ public class Question3 {
                 // ニュースの日付
                 String date = child.child(0).child(2).select("span").text();
                 date = year + "/" + date;
-                String newDate = date.replace("/PR ", "/");
-                System.out.println(newDate);
+                String newDate = date.replace("/PR ", "/");// PRの文字を省く
                 // ニュースのリンク
                 String link = child.child(0).child(1).child(0).attr("href");
 
