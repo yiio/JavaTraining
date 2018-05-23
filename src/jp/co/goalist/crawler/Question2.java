@@ -29,8 +29,9 @@ public  class Question2 {
     // 総合カテゴリ
     public static void Overall(BufferedWriter bw) throws IOException {
         System.out.println("■総合");
-        String rootUrl = "http://news.mynavi.jp/top/headline";
-        Document doc = Jsoup.connect(rootUrl).get();
+        String rootUrl = "http://news.mynavi.jp";
+        String pageUrl = rootUrl + "/top/headline";
+        Document doc = Jsoup.connect(pageUrl).get();
         Element el = doc.select("div.thumb-s").get(0);
 
 
@@ -54,7 +55,7 @@ public  class Question2 {
                 String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
 
                 //ニュースのURL
-                String url = child.child(0).attr("href");
+                String url = child.select("a").get(0).attr("href");
                 url = rootUrl + url;
 
                 String str = title + ","+ category + "," + date + "," + url  ;
@@ -91,7 +92,7 @@ public  class Question2 {
             String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
 
             //ニュースのURL
-            String url = child.child(0).attr("href");
+            String url = child.select("a").get(0).attr("href");
             url = rootUrl + url;
 
             String str = title + ","+ category + "," + date + "," + url  ;
@@ -127,7 +128,7 @@ public  class Question2 {
             String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
 
             //ニュースのURL
-            String url = child.child(0).attr("href");
+            String url = child.select("a").get(0).attr("href");
             url = rootUrl + url;
 
             String str = title + ","+ category + "," + date + "," + url  ;
@@ -164,7 +165,7 @@ public  class Question2 {
             String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
 
             //ニュースのURL
-            String url = child.child(0).attr("href");
+            String url = child.select("a").get(0).attr("href");
             url = rootUrl + url;
 
             String str = title + ","+ category + "," + date + "," + url  ;
@@ -201,7 +202,7 @@ public  class Question2 {
             String date ="2018/"+child.select("span.thumb-s__date").get(0).text();
 
             //ニュースのURL
-            String url = child.child(0).attr("href");
+            String url = child.select("a").get(0).attr("href");
             url = rootUrl + url;
 
             String str = title + ","+ category + "," + date + "," + url  ;
