@@ -46,7 +46,7 @@ public class Q1 {
                             continue;
                         }
 
-                        String title = nakamiChild.text();
+                        String title = nakamiChild.child(0).child(1).text();
 
                         String articleUrl = nakamiChild.child(0).child(1).child(0).attr("href"); // li要素の子要素のa要素のhrefというアトリビュートでリンク先のurlが指定されている
 
