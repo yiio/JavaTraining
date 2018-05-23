@@ -16,9 +16,9 @@ public class Question1{
     public static void main(String[] args){
 
         //input a message you want to send
-        String message = "Hello";
+        String message = "お腹空いた？";
         final String urlstr = "https://api.chatwork.com/v2/rooms/105172471/messages";
-        final String apiKey = "APIkey";
+        final String apiKey = "c9cdd46c28ad3531978660bc13a8fe45";
 
         HttpURLConnection con = null;
         try{

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Question5 {
     public static void main(String[] args) {
-        Path filePath = Paths.get("C:\\\\TechTraining\\\\resources\\\\testResult.csv");
+        Path filePath = Paths.get("C:/TechTraining/resources/testResult.csv");
 
         // データの行列数を調べる
         int a = 0;
