@@ -2,6 +2,7 @@ package jp.co.goalist.rikunabi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,17 +23,19 @@ public class Main {
         //Q3();
         //Q4();
         //Q5();
-        //Q6();
+        Q6();
 
     }
+
+    private static Path rikunabi = Paths.get("c:/TechTraining/resources/recruitNaviNext.csv");
+
 
 
     public static void Q1() {
 
-        Path rukunabi = Paths.get("c:/TechTraining/resources/recruitNaviNext.csv");
         long lineCount = 0;
 
-        try(BufferedReader br = Files.newBufferedReader(rukunabi)){
+        try(BufferedReader br = Files.newBufferedReader(rikunabi)){
 
             String line = br.readLine();
 
@@ -44,7 +47,7 @@ public class Main {
             System.out.println(e);
         }
 
-        System.out.println("全掲載件数は" + lineCount + "件です");
+        System.out.println("全掲載件数は、" + lineCount + "件です");
 
     }
 
@@ -54,10 +57,10 @@ public class Main {
 
 
     public static void Q2() {
-        Path rukunabi = Paths.get("c:/TechTraining/resources/recruitNaviNext.csv");
+
         int count = 0;
 
-        try(BufferedReader br = Files.newBufferedReader(rukunabi)){
+        try(BufferedReader br = Files.newBufferedReader(rikunabi)){
 
             String line = br.readLine();
             String[] header = line.split(",");
@@ -77,7 +80,7 @@ public class Main {
             System.out.println(e);
         }
 
-        System.out.println("「契約社員」の掲載件数は" + count +"件です");
+        System.out.println("「契約社員」の掲載件数は、" + count +"件です");
 
     }
 
@@ -87,7 +90,7 @@ public class Main {
 
 
     public static void Q3() {
-        Path rukunabi = Paths.get("c:/TechTraining/resources/recruitNaviNext.csv");
+
         Map<String, Integer> prefMap = new HashMap<>();
         String[] prefs = {"北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
                 "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
@@ -99,7 +102,7 @@ public class Main {
                 };
 
 
-        try(BufferedReader br = Files.newBufferedReader(rukunabi)){
+        try(BufferedReader br = Files.newBufferedReader(rikunabi)){
 
             String line = br.readLine();
             String[] header = line.split(",");
@@ -135,9 +138,10 @@ public class Main {
             System.out.println(e);
         }
 
+        System.out.println("都道府県,掲載件数");
 
         for (Map.Entry<String, Integer> entry : prefMap.entrySet()) {
-            System.out.println(entry.getKey() + "の掲載件数は" + entry.getValue() + "件です");
+            System.out.println(entry.getKey() + "," + entry.getValue() + "件");
         }
 
 
@@ -148,12 +152,12 @@ public class Main {
 
 
     public static void Q4() {
-        Path rukunabi = Paths.get("c:/TechTraining/resources/recruitNaviNext.csv");
+
         Map<String, Integer> numberMap = new HashMap<>();
         Map<String, Integer> wageMap = new HashMap<>();
 
 
-        try(BufferedReader br = Files.newBufferedReader(rukunabi)){
+        try(BufferedReader br = Files.newBufferedReader(rikunabi)){
 
             String line = br.readLine();
             String[] header = line.split(",");
@@ -168,16 +172,16 @@ public class Main {
                 String category = elems[indexOfCategory];
 
 
-                if(elems[indexOfWage].isEmpty()) {
+                if(elems[indexOfWage].isEmpty()) { //月給下限金額が掲載されていない場合
 
                     continue;
 
-                }else if(!wageMap.containsKey(category)){
+                }else if(!wageMap.containsKey(category)){ //その職種分類がまだwageMapに含まれていない場合
                     numberMap.put(category, 1);
                     wageMap.put(category, Integer.parseInt(elems[indexOfWage]));
 
 
-                }else {
+                }else { //含まれている場合
                     numberMap.put(category, numberMap.get(category) + 1);
                     wageMap.put(category, wageMap.get(category) + Integer.parseInt(elems[indexOfWage]));
 
@@ -190,9 +194,11 @@ public class Main {
             System.out.println(e);
         }
 
+        System.out.println("職種分類,平均月給下限金額");
 
+        //それぞれの職種の平均月給下限金額を出力
         for(String occupation : wageMap.keySet()) {
-            System.out.println(occupation + "の月給下限金額の平均は" + String.format("%,d",wageMap.get(occupation) / numberMap.get(occupation)) + "円です");
+            System.out.println(occupation + "," + String.format("%,d",wageMap.get(occupation) / numberMap.get(occupation)) + "円");
         }
 
     }
@@ -201,13 +207,13 @@ public class Main {
 
     public static void Q5() {
 
-        Path rukunabi = Paths.get("c:/TechTraining/resources/recruitNaviNext.csv");
+
 
         Map<String,Integer> numberMap = new HashMap<>();
 
 
 
-        try(BufferedReader br = Files.newBufferedReader(rukunabi)){
+        try(BufferedReader br = Files.newBufferedReader(rikunabi)){
 
             String line = br.readLine();
             String[] header = line.split(",");
@@ -277,6 +283,11 @@ public class Main {
                 System.out.println(rank + "位:" + list.get(x).getKey() + "," + list.get(x).getValue() + "件");
                 count++;
             }
+
+            if (count > 9) { //top10で止める
+                break;
+            }
+
         }
 
 
@@ -289,8 +300,9 @@ public class Main {
 
     public static void Q6() {
 
-        Path rikunabi = Paths.get("c:/TechTraining/resources/recruitNaviNext.csv");
 
+        Map<String,Map<String, Integer>> prefMap = new TreeMap<>();  //<都道府県,Map<広告プラン,広告数>>
+        Map<String, Integer> countMap = new HashMap<>(); //<広告プラン,広告数>
 
         //都道府県ごと
         try(BufferedReader br = Files.newBufferedReader(rikunabi)){
@@ -301,8 +313,7 @@ public class Main {
             int indexOfPlan = headerList.indexOf("広告プラン");
             int indexOfPref = headerList.indexOf("エリア都道府県");
 
-            Map<String,Map<String, Integer>> prefMap = new TreeMap<>();  //<都道府県,Map<広告プラン,広告数>>
-            Map<String, Integer> countMap = new HashMap<>(); //<広告プラン,広告数>
+
 
 
             while((line = br.readLine()) != null) {
@@ -342,22 +353,8 @@ public class Main {
             }
 
 
-           for(String prefs: prefMap.keySet()) {
-               //System.out.println(prefs + ":" + prefMap.get(prefs));
 
 
-               if(prefMap.get(prefs).containsKey("N5")) {
-                   System.out.println(prefs + ":  " + (double)prefMap.get(prefs).get("N5") / countMap.get(prefs));
-
-               }
-
-
-               if((prefMap.get(prefs).containsKey("N5")) && (prefMap.get(prefs).containsKey("N4"))) {
-                   System.out.println(prefs + ":  " + ((double)prefMap.get(prefs).get("N5") + (double)prefMap.get(prefs).get("N4")) / countMap.get(prefs));
-               }
-
-
-           }
 
 
         }catch (IOException e) {
@@ -365,23 +362,55 @@ public class Main {
         }
 
 
+        System.out.println("◎都道府県");
+        System.out.println("\n" + "  " + "■広告プランの件数");
+        for(String prefs: prefMap.keySet()) {
+
+            System.out.println("  " + "\n" + "  " + "<" + prefs + ">");
+
+            for (String plan : prefMap.get(prefs).keySet())
+            System.out.print("  " + plan + ":" + prefMap.get(prefs).get(plan)+ "  ");
+        }
+
+        System.out.println("\n\n" + "  " + "■全体に占めるN5の割合" + "\n");
+        for(String prefs: prefMap.keySet()) {
+
+            if(prefMap.get(prefs).containsKey("N5")) {
+                BigDecimal bd = new BigDecimal((double)prefMap.get(prefs).get("N5") / countMap.get(prefs));
+                BigDecimal rate = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
+                System.out.println("  " + prefs + ":  " + rate);
+
+            }
+        }
+
+        System.out.println("\n" + "  " + "■全体に占めるN5+N4の割合" + "\n");
+        for(String prefs: prefMap.keySet()) {
+
+            if((prefMap.get(prefs).containsKey("N5")) && (prefMap.get(prefs).containsKey("N4"))) {
+                BigDecimal bd = new BigDecimal((double)prefMap.get(prefs).get("N5") + (double)prefMap.get(prefs).get("N4") / countMap.get(prefs));
+                BigDecimal rate = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
+                System.out.println("  " + prefs + ":  " + rate);
+            }
+        }
 
 
 
 
         //東京都の市区町村ごと
         Map<String, Map<String, Integer>> muniMap = new TreeMap<>();
-        Map<String, Integer> countMap = new HashMap<>();
+        Map<String, Integer> countMap2 = new HashMap<>();
 
         try (BufferedReader br2 = Files.newBufferedReader(rikunabi)){
             String line = br2.readLine();
             String[] header = line.split(",");
             List<String> headerList = Arrays.asList(header);
+
             int indexOfMunicipality = headerList.indexOf("エリア市区町村");
             int indexOfPref = headerList.indexOf("エリア都道府県");
             int indexOfPlan = headerList.indexOf("広告プラン");
 
             while((line = br2.readLine()) != null) {
+
                 String[] elems = line.split(",");
                 String muni = elems[indexOfMunicipality];
                 String pref = elems[indexOfPref];
@@ -408,38 +437,50 @@ public class Main {
                     continue;
                 }
 
-                if(!countMap.containsKey(muni)) {
-                    countMap.put(muni, 1);
+                if(!countMap2.containsKey(muni)) {
+                    countMap2.put(muni, 1);
                 }else {
-                    countMap.put(muni, countMap.get(muni) + 1);
+                    countMap2.put(muni, countMap2.get(muni) + 1);
                 }
 
 
             }
 
-            for(String munis: muniMap.keySet()) {
-                System.out.println(munis + ":" + muniMap.get(munis));
-            }
-
-            for(String munis: muniMap.keySet()) {
-                //System.out.println(prefs + ":" + prefMap.get(prefs));
-
-
-                if(muniMap.get(munis).containsKey("N5")) {
-                    //System.out.println(munis + ":  " + (double)muniMap.get(munis).get("N5") / countMap.get(munis));
-                }
-
-                if((muniMap.get(munis).containsKey("N5")) && (muniMap.get(munis).containsKey("N4"))) {
-                    System.out.println(munis + ":  " + ((double)muniMap.get(munis).get("N5") + (double)muniMap.get(munis).get("N4")) / countMap.get(munis));
-                }
-            }
 
 
         }catch (IOException e) {
             System.out.println(e);
         }
 
+        System.out.println("\n" + "◎市町村");
+        System.out.println("\n" + "  " + "■広告プランの件数");
 
+        for(String munis: muniMap.keySet()) {
+            System.out.println("\n" + "  " + "<" + munis + ">");
+
+            for (String plan : muniMap.get(munis).keySet())
+            System.out.print("  " + plan + ":" + muniMap.get(munis).get(plan)+ "  ");
+        }
+
+        System.out.println("\n\n" + "  " + "■全体に占めるN5の割合" + "\n");
+        for(String munis: muniMap.keySet()) {
+
+            if(muniMap.get(munis).containsKey("N5")) {
+                BigDecimal bd = new BigDecimal((double)muniMap.get(munis).get("N5") / countMap2.get(munis));
+                BigDecimal rate = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
+                System.out.println("  " + munis + ":  " + rate);
+            }
+
+        }
+
+        System.out.println("\n\n" + "  " + "■全体に占めるN5+N4の割合" + "\n");
+        for(String munis: muniMap.keySet()) {
+            if((muniMap.get(munis).containsKey("N5")) && (muniMap.get(munis).containsKey("N4"))) {
+                BigDecimal bd = new BigDecimal((double)muniMap.get(munis).get("N5") + (double)muniMap.get(munis).get("N4") / countMap2.get(munis));
+                BigDecimal rate = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
+                System.out.println("  " + munis + ":  " + rate);
+            }
+        }
 
     }
 
