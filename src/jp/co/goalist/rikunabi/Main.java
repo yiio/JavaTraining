@@ -2,6 +2,7 @@ package jp.co.goalist.rikunabi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,15 +20,20 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Main {
     static Map<String, Integer> numberMap = new HashMap<String, Integer>(); // ƒL[‚Éu‘SŒfÚŒ”v‚ÆuŒ_–ñĞˆõv‚ğA’l‚É‚»‚ê‚ç‚ÌŒ”‚ğŠi”[
-    static Map<String, Integer> prefMap = new LinkedHashMap<String, Integer>(); // “s“¹•{Œ§, ŒfÚŒ”
+    static Map<String, Integer> prefNumberMap = new LinkedHashMap<String, Integer>(); // “s“¹•{Œ§, ŒfÚŒ”
     static Map<String, Integer> jobSalaryMap = new HashMap<String, Integer>(); // Eí, Œ‹‹‰ºŒÀ‹àŠz‚Ì‡Œv
     static Map<String, Integer> jobCountMap = new HashMap<String, Integer>(); // Eí, Eí‚²‚Æ‚ÌŒfÚŒ”
     static Map<String, Integer> nameCountMap = new HashMap<String, Integer>(); // Šé‹Æ–¼, Šé‹Æ‚²‚Æ‚ÌŒfÚŒ”
-
-
+    
+    // ‰Û‘è‚U—p
+    static Map<String, Integer> tokyojobNumberMap = new HashMap<String, Integer>(); // Eí, Eí‚²‚Æ‚ÌŒfÚŒ”i“Œ‹“sj
+    static Map<String, Integer> kanagawajobNumberMap = new HashMap<String, Integer>(); // Eí, Eí‚²‚Æ‚ÌŒfÚŒ”i_“ŞìŒ§j
+    static Map<String, Integer> osakajobNumberMap = new HashMap<String, Integer>(); // Eí, Eí‚²‚Æ‚ÌŒfÚŒ”i‘åã•{j
+    static Map<String, Integer> aichijobNumberMap = new HashMap<String, Integer>(); // Eí, Eí‚²‚Æ‚ÌŒfÚŒ”iˆ¤’mŒ§j
+    static Map<String, Integer> saitamajobNumberMap = new HashMap<String, Integer>(); // Eí, Eí‚²‚Æ‚ÌŒfÚŒ”ié‹ÊŒ§j
+    
     public static void main(String[] args) {
         Path filePath = Paths.get("C:\\TechTraining\\resources\\recruitNaviNext.csv");
-        
         
         int cnt = 0; // ‘SŒfÚŒ”
         int numOfContract = 0; // ŒÙ—p‹æ•ª‚ªŒ_–ñĞˆõ‚Å‚ ‚éˆÄŒ”
@@ -42,7 +48,7 @@ public class Main {
                 "ŒF–{Œ§","‘å•ªŒ§","‹{èŒ§","­™“‡Œ§","‰«“êŒ§",
                 };
         for (int i = 0; i < 47; i++) {
-            prefMap.put(prefAry[i], 0);
+            prefNumberMap.put(prefAry[i], 0);
         }
         
         try (BufferedReader br = Files.newBufferedReader(filePath)) {
@@ -72,11 +78,11 @@ public class Main {
                 // ƒGƒŠƒA“s“¹•{Œ§‚Ì•¶š—ñiu13:“Œ‹“sv‚È‚Çj‚ğ“s“¹•{Œ§–¼‚Ì‚İiu“Œ‹“sv‚È‚Çj‚É•ÏŠ·
                 String[] prefCols = pref.split(":");
                 String clearPref = prefCols[1];
-                if (!prefMap.containsKey(clearPref)) {
-                    prefMap.put(clearPref, 0);
+                if (!prefNumberMap.containsKey(clearPref)) {
+                    prefNumberMap.put(clearPref, 0);
                 }
-                int prefCnt = prefMap.get(clearPref) + 1;
-                prefMap.put(clearPref, prefCnt);
+                int prefCnt = prefNumberMap.get(clearPref) + 1;
+                prefNumberMap.put(clearPref, prefCnt);
 
                 
                 // Eí•ª—Ş‚²‚Æ‚ÌŒ‹‹‰ºŒÀ‹àŠz‚ğæ“¾‚µAjobSalaryMap‚Ì’l‚É‘«‚µ‚Ä‚¢‚­i‰Û‘è‚Sj
@@ -102,6 +108,50 @@ public class Main {
                 } else { // ‚»‚ÌŠé‹Æ‚Ì‰‰ñ“oê
                     nameCountMap.put(name, 1);
                 }
+                
+                // lŒûãˆÊ‚T“s“¹•{Œ§‚ÌAEí‚²‚Æ‚ÌŒfÚŒ”‚ğæ“¾i‰Û‘è‚Uj
+                // ŠÔ‚ª‚È‚¢‚Ì‚ÅƒSƒŠ‰Ÿ‚µ‚µ‚Ü‚·
+                if (clearPref.equals("“Œ‹“s")) {
+                    String job = cols[indexOfJob];
+                    if (tokyojobNumberMap.containsKey(job)) {
+                        int newNumber = tokyojobNumberMap.get(job) + 1;
+                        tokyojobNumberMap.put(job, newNumber);
+                    } else {
+                        tokyojobNumberMap.put(job, 1);
+                    }
+                } else if (clearPref.equals("_“ŞìŒ§")){
+                    String job = cols[indexOfJob];
+                    if (kanagawajobNumberMap.containsKey(job)) {
+                        int newNumber = kanagawajobNumberMap.get(job) + 1;
+                        kanagawajobNumberMap.put(job, newNumber);
+                    } else {
+                        kanagawajobNumberMap.put(job, 1);
+                    }
+                } else if (clearPref.equals("‘åã•{")) {
+                    String job = cols[indexOfJob];
+                    if (osakajobNumberMap.containsKey(job)) {
+                        int newNumber = osakajobNumberMap.get(job) + 1;
+                        osakajobNumberMap.put(job, newNumber);
+                    } else {
+                        osakajobNumberMap.put(job, 1);
+                    }
+                } else if (clearPref.equals("ˆ¤’mŒ§")) {
+                    String job = cols[indexOfJob];
+                    if (aichijobNumberMap.containsKey(job)) {
+                        int newNumber = aichijobNumberMap.get(job) + 1;
+                        aichijobNumberMap.put(job, newNumber);
+                    } else {
+                        aichijobNumberMap.put(job, 1);
+                    }
+                } else if (clearPref.equals("é‹ÊŒ§")) {
+                    String job = cols[indexOfJob];
+                    if (saitamajobNumberMap.containsKey(job)) {
+                        int newNumber = saitamajobNumberMap.get(job) + 1;
+                        saitamajobNumberMap.put(job, newNumber);
+                    } else {
+                        saitamajobNumberMap.put(job, 1);
+                    }
+                }
             }
             numberMap.put("‘SŒfÚŒ”", cnt);
             numberMap.put("Œ_–ñĞˆõ", numOfContract);
@@ -117,7 +167,6 @@ public class Main {
         printQ4();
         printQ5();
         printQ6();
-        
     }
 
     // Še‰Û‘è‚Ìƒƒ\ƒbƒh‚ğì¬
@@ -141,7 +190,7 @@ public class Main {
     private static void printQ3() {
         System.out.println("‰Û‘è‚R");
         System.out.println("“s“¹•{Œ§–¼ F ŒfÚŒ”");
-        for (Map.Entry<String, Integer> entry : prefMap.entrySet()) {
+        for (Map.Entry<String, Integer> entry : prefNumberMap.entrySet()) {
             String pref = entry.getKey();
             int count = entry.getValue();
             System.out.println(pref + " F " + count + "Œ");
@@ -203,15 +252,46 @@ public class Main {
                 System.out.println(rank + "ˆÊ@" + name + " : " + number + "Œ");
                 // “¯—¦‡ˆÊ‚ÌŠé‹Æ”‚ğXV
                 tieMap.put(rank, tieMap.get(rank) + 1);
-                
             }
             num2 = entry.getValue();
         }
+        System.out.println("\r\n\r\n");
     }
     
-    // Q6 
+    // Q6 lŒûãˆÊ5ˆÊ‚Ü‚Å‚Ì“s“¹•{Œ§‚Æ‘S‘‚ÅAEí•Ê‚Ì‹lŒfÚ”‚ÌŠ„‡‚ğZo
     private static void printQ6() {
+        System.out.println("‰Û‘è‚U");
+        System.out.println("“Œ‹“s‚ÌEí•Ê‹lŒfÚ”‚ÌŠ„‡");
+        calcurateRatio(tokyojobNumberMap);
         
+        System.out.println("_“ŞìŒ§‚ÌEí•Ê‹lŒfÚ”‚ÌŠ„‡");
+        calcurateRatio(kanagawajobNumberMap);
+        
+        System.out.println("‘åã•{‚ÌEí•Ê‹lŒfÚ”‚ÌŠ„‡");
+        calcurateRatio(osakajobNumberMap);
+        
+        System.out.println("ˆ¤’mŒ§‚ÌEí•Ê‹lŒfÚ”‚ÌŠ„‡");
+        calcurateRatio(aichijobNumberMap);
+        
+        System.out.println("é‹ÊŒ§‚ÌEí•Ê‹lŒfÚ”‚ÌŠ„‡");
+        calcurateRatio(saitamajobNumberMap);
+        
+        System.out.println("‘S‘‚ÌEí•Ê‹lŒfÚ”‚ÌŠ„‡");
+        calcurateRatio(jobCountMap);
+    }
+    
+    private static void calcurateRatio(Map<String, Integer> map) {
+        int sum = 0;
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            sum +=  entry.getValue();
+        }
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            double avg = 100 * (double)entry.getValue() / sum;
+            BigDecimal viewAvg = new BigDecimal(avg);
+            viewAvg = viewAvg.setScale(1, BigDecimal.ROUND_HALF_UP);
+            System.out.println(entry.getKey() + " : " + viewAvg + "%");
+        }
+        System.out.println("");
     }
 
 }
