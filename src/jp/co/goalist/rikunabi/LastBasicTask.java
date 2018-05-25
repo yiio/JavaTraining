@@ -2,13 +2,16 @@ package jp.co.goalist.rikunabi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
-public class Main {
+public class LastBasicTask {
 
     public static void main(String[] args) {
         kadai1();
@@ -90,7 +93,7 @@ public class Main {
                 String[] cols=line.split(",");
                 area=cols[6];
                 if (map.containsKey(area)) {
-                    int count= map.get(area) + 1;
+                    int count= map.get(area) + 1;//get(area)で値のこと
                     map.put(area,count);
                 } else {
                     map.put(area, 0);
@@ -99,7 +102,6 @@ public class Main {
             for (Entry<String, Integer> entry : map.entrySet()) {
                 System.out.println( entry.getKey()+"の掲載件数:"+entry.getValue()+"件");
             }
-
         } catch (IOException e) {
             // TODO 自動生成された catch ブロック
             e.printStackTrace();
@@ -110,17 +112,54 @@ public class Main {
         Path filePath=Paths.get("C:\\TechTraining\\resources\\recruitNaviNext.csv");
         try(BufferedReader br = Files.newBufferedReader(filePath)){
             String line=br.readLine();
-            LinkedHashMap<String,Integer>map=new LinkedHashMap<>();
-            int jobCnt=0;
+            String[] header=line.split(",");
+            LinkedHashMap<String,Integer>jobMinMoneyMap= new LinkedHashMap<>();
+            LinkedHashMap<String,Integer>jobHumanMap=new LinkedHashMap<>();
             String job;
+            String minMoney;
+            int min=0;
+            int parsonCnt=1;
             while((line=br.readLine())!=null) {
-                String[]cols=line.split(",");
-                job=cols[11];
+                String[] cols=line.split(",");
+                job=cols[4];
+                minMoney=cols[11];
+                if(minMoney.isEmpty()) {
+                    continue;
+                }else if(jobMinMoneyMap.containsKey(job)) {
+                    min =Integer.parseInt(minMoney);
+                    min+=jobMinMoneyMap.get(job);
+                    jobMinMoneyMap.put(job,min);
+                    parsonCnt=jobHumanMap.get(job)+1;
+                    jobHumanMap.put(job,parsonCnt);
+                }else {
+                    min =Integer.parseInt(minMoney);
+                    jobMinMoneyMap.put(job, min);
+                    jobHumanMap.put(job, 0);
+                }
+            }
 
+            for(Map.Entry<String,Integer> entry : jobMinMoneyMap.entrySet()) {
+                String jobcat = entry.getKey();
+                int count = jobHumanMap.get(jobcat);
+
+                double db=(double)entry.getValue();
+                //int i=jobHumanMap.get();
+                double ave=db/count;//forを書かなくても、すでにカウントは上でputしている
+                BigDecimal avebd=new BigDecimal(ave);
+                BigDecimal roundedave =avebd.setScale(0,RoundingMode.HALF_UP);
+                System.out.println(entry.getKey()+":\\"+roundedave);
             }
         } catch (IOException e) {
             // TODO 自動生成された catch ブロック
             e.printStackTrace();
         }
     }
+
+//    public static void kadai5() throws IOException {
+//        Path filePath=Paths.get("C:\\TechTraining\\resources\\recruitNaviNext.csv");
+//        try(BufferedReader br = Files.newBufferedReader(filePath)){
+//            String line=br.readLine();
+//            String[] header=line.split(",");
+//        }
+//    }
 }
