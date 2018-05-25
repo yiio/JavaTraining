@@ -38,25 +38,18 @@ public class Question4 {
 
         try {
 
-
             Document doc = Jsoup.connect(rootUrl).get(); // ページの内容を要求
-
-            Element last = doc.select("a.paginate__last").get(0);
-
-            String lastUrl = last.attr("href");
-            number = lastUrl.split("="); //総ページ数を取得
-            List<String> textList = null;
-
-
-            int page = Integer.parseInt(number[1]);
-
-            //2ページ目以降の記事を1ページずつ取得
-            for(int y = 1; y <= page; y++) {
+            
+            //記事を1ページずつ取得
+            for(int y = 1; y >= 1; y++) {
 
                 String pageUrl = rootUrl + "?page=" + y;
                 Document doc2 = Jsoup.connect(pageUrl).get();
                 Elements el = doc2.select("div.thumb-s");
 
+                if (el.isEmpty()) {
+                    break;
+                }
 
                 for (int x = 0; x < el.size(); x++) {
 
@@ -76,7 +69,7 @@ public class Question4 {
                             date = year + "/" +el.get(x).child(i).child(0).child(2).child(0).text();
                         }
 
-                        textList = new ArrayList<>();
+                        List<String> textList = new ArrayList<>();
                         Document art = Jsoup.connect(url).get();
                         Elements text = art.select("div.article-body > p");
 
@@ -164,10 +157,13 @@ public class Question4 {
 
             }
 
+        }catch (IOException e) {
+            System.out.println(e);
+        }
 
 
 
-
+        
 
             Path answerPath = Paths.get("c:/TechTraining/resources/answerQ4.csv"); // 書き込み対象ファイルの場所を指定
 
@@ -197,16 +193,7 @@ public class Question4 {
                 System.out.println(e);
             }
 
-
-
-
-
-
-
-
-        }catch (IOException e) {
-            System.out.println(e);
-        }
+        
 
 
     }
