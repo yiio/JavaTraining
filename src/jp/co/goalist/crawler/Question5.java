@@ -43,22 +43,19 @@ public class Question5 {
     private static void Q5(String category, String subCategory, int year, int month) throws IOException {
 
         List<String> imgList = new ArrayList<>();
-        String rootUrl = "https://news.mynavi.jp/list/headline/" + category + "/" + subCategory + "/" + year + "/" + String.format("%02d", month) + "/";
-        Document doc = Jsoup.connect(rootUrl).get();
 
 
-        //総ページ数を取得
-        Element last = doc.select("a.paginate__last").get(0);
-        String[] lastUrl = last.attr("href").split("=");
-        int page = Integer.parseInt(lastUrl[1]); //総ページ数を求める
 
+        for (int x = 1; x >= 1; x ++) { //1ページずつ取得
 
-        for (int x = 1; x <= page; x ++) { //1ページずつ取得
-
-            String pageUrl = rootUrl + "?page=" + x;
-            Document doc2 = Jsoup.connect(pageUrl).get();
-            Elements el = doc2.select("div.thumb-s__thumb > div.thumb-s__img-wrap > img.thumb-s__img"); //div.thumb-sは日付ごと
+            String rootUrl = "https://news.mynavi.jp/list/headline/" + category + "/" + subCategory + "/" + year + "/" + String.format("%02d", month) + "/" + "?page=" + x;
+            Document doc = Jsoup.connect(rootUrl).get();
+            Elements el = doc.select("div.thumb-s__thumb > div.thumb-s__img-wrap > img.thumb-s__img"); //div.thumb-sは日付ごと
             String elUrl = null;
+
+            if(el.isEmpty()) { //次ページが存在しない場合、処理を中止
+                break;
+            }
 
 
             for(Element img : el) { //各記事の画像
@@ -80,7 +77,7 @@ public class Question5 {
                 }
 
                 imgList.add(elUrl);
-                System.out.println(elUrl);
+                //System.out.println(elUrl);
 
             }
 
