@@ -18,12 +18,12 @@ import java.util.TreeMap;
 public class Main {
     public static void main(String[] args) {
         Path rikunabi = Paths.get("C:/TechTraining/resources/recruitNaviNext.csv");
-        //Q1(rikunabi);
-        //Q2(rikunabi);
-        //Q3(rikunabi);
-        //Q4(rikunabi);
+        Q1(rikunabi);
+        Q2(rikunabi);
+        Q3(rikunabi);
+        Q4(rikunabi);
         Q5(rikunabi);
-        //Q6(rikunabi);
+        Q6(rikunabi);
     }
 
     public static void Q1(Path rikunabi) {
