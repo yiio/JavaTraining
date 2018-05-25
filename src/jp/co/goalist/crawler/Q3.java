@@ -91,7 +91,7 @@ public class Q3 {
                     List<String> newsInfo = entry.getValue();// もろもろ情報
                     String title = newsInfo.get(0);
                     String category = newsInfo.get(1);
-                    String date = newsInfo.get(2);
+                    String date =String.valueOf(year) + "/"+ newsInfo.get(2);
                     String url = newsInfo.get(3);
                     bw.write(title + "," + category + "," + date + "," + url);
                     bw.newLine();
