@@ -1,0 +1,31 @@
+body{
+	margin:30px auto;
+	font-family:'Hiragino Maru Gothic Pro';
+	margin:10px 60px;
+}
+
+a:link{
+	color:#000077;
+}
+
+img{
+	margin:0px 0px 0px 160px;
+}
+
+.item{
+}
+
+.title{
+}
+
+.tag{
+	color:#555555;
+	font-size:13px;
+	margin:0px 10px 0px 500px;
+}
+
+.category{
+}
+
+.date{
+}
