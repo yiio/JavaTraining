@@ -23,6 +23,8 @@ public class Kadai2 {
             String year =el.select("p").get(0).text();
             String newYear=year.substring(0,4);
             
+            bw.write("件名,カテゴリ,ニュース日時,URL");
+            bw.newLine();
             for(Element child : el.children()) {
                 if(child.children().size()<1) {
                     continue;
