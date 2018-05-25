@@ -103,7 +103,7 @@ public class Question4 {
                             Document docNewsContents = Jsoup.connect("https://news.mynavi.jp" + link + j).get();
                             Element elNews = docNewsContents.select("main.main > article.article").get(0);
                             for (Element para : elNews.children().select("p")) {
-                                newsContents += para.text();
+                                newsContents += para.text() + " ";//改行がある場合は半角スペースを挿入
                                 newsContents.replace(",", "、");// 半角カンマを全角カンマに変換
                             }
                         }
