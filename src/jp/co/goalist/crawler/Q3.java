@@ -6,9 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,43 +29,57 @@ public class Q3 {
 
     private static void makeArticlesCsv(int year, int month) throws IOException {
 
+     // // (件名、＜いろんな情報＞)のマップを作製
+        Map<String, List<String>> articleMap = new TreeMap<String, List<String>>();
+        
         try {
-            String rootUrl = "https://news.mynavi.jp/list/headline/" + year + "/" + month + "/"; // クロール先のurl
-            Document doc = Jsoup.connect(rootUrl).get(); // ページの内容を要求し、その内容をDocument型のdocとして取り回していく
-            Element el = doc.select(" section.box.box--top.box--line > div.thumb-s").get(0);
+            String rootUrl = "https://news.mynavi.jp/list/headline/" + year + "/" + month + "/"; // クロール先の元url
 
-            // // (件名、＜いろんな情報＞)のマップを作製
-            Map<String, List<String>> articleMap = new LinkedHashMap<String, List<String>>();
+            // ここからコピペ
+            for (int i = 1; i > 0; i++) {// ページ数の数だけ
+                String rootUrlpage = rootUrl + "?page=" + (i);// iページ目のurl
 
-            int cnt = 0;
-            for (Element articleChild : el.children()) {
-                cnt++;
-                List<String> infoList = new ArrayList<String>();
-                if (cnt == 1) {
-                    infoList.add("件名");
-                    infoList.add("カテゴリ");
-                    infoList.add("ニュース日時");
-                    infoList.add("URL");
-                    articleMap.put("件名", infoList);
-                    continue;
+                Document doc = Jsoup.connect(rootUrlpage).get(); // ページの内容を要求し、その内容をDocument型のdocとして取り回していく
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
-                String title = articleChild.child(0).child(1).text();
-                String category = articleChild.child(0).child(2).child(0).text();
-                String date = articleChild.child(0).child(2).child(1).text();
-                String articleUrl = "https://news.mynavi.jp" + articleChild.child(0).child(1).child(0).attr("href");
+                Element lastPageElem = doc.getElementsByClass("paginate__last").first();
 
-                infoList.add(title);
-                infoList.add(category);
-                infoList.add(date);
-                infoList.add(articleUrl);
-                articleMap.put(title, infoList);
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // TODO 自動生成された catch ブロック
-                e.printStackTrace();
+                if (lastPageElem == null) {// 最後のページへのところにURLがなかったらbreak
+                    break;
+
+                }
+
+                Element el = doc.select(" section.box.box--top.box--line > div.thumb-s").get(0);
+                
+
+                int cnt = 0;
+                for (Element articleChild : el.children()) {
+                    cnt++;
+                    List<String> infoList = new ArrayList<String>();
+                    if (cnt == 1) {
+                        infoList.add("件名");
+                        infoList.add("カテゴリ");
+                        infoList.add("ニュース日時");
+                        infoList.add("URL");
+                        articleMap.put("ニュース日時", infoList);
+                        continue;
+                    }
+
+                    String title = articleChild.child(0).child(1).text();
+                    String category = articleChild.child(0).child(2).child(0).text();
+                    String date = articleChild.child(0).child(2).child(1).text();
+                    String articleUrl = "https://news.mynavi.jp" + articleChild.child(0).child(1).child(0).attr("href");
+
+                    infoList.add(title);
+                    infoList.add(category);
+                    infoList.add(date);
+                    infoList.add(articleUrl);
+                    articleMap.put(date, infoList);
+                }
             }
 
             Path answerPath = Paths.get("C:\\TechTraining\\resources\\crawl_3.csv"); // 書き込み対象ファイルの場所を指定
@@ -82,7 +96,6 @@ public class Q3 {
                     bw.write(title + "," + category + "," + date + "," + url);
                     bw.newLine();
                 }
-                bw.close();
 
             } catch (IOException e) {
                 throw e;
