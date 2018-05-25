@@ -87,7 +87,7 @@ public class Q5 {
         for (int i = 0; i < imgUrlList.size(); ++i) {
             String imgUrl = imgUrlList.get(i);
             String fileName = year + month + "-" +i + ".jpg"; 
-            //20161229-siemens_mentor 
+            //201612-1.jpg 
 
             // 画像のローカル保存先を用意する
             String dir = "c:\\TechTraining\\resources\\img";
