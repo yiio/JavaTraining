@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -37,16 +35,9 @@ public class Question4 {
         // ニュースが載っているページ数の取得
         String url = "https://news.mynavi.jp/list/headline/business/technology/semiconductor/" + year + "/" + month;
         Document docTop = Jsoup.connect(url).get();
-        Element elPageNum = docTop.select("div.body > main.main  > section.box.box--top.box--line > div.paginate")
-                .get(0);
+        Element elPageNum = docTop.select("main.main  > section.box.box--top.box--line > div.paginate").get(0);
         String pageLastLink = elPageNum.child(0).select("a.paginate__last").attr("href");
         String pageLastNum = pageLastLink.substring(pageLastLink.indexOf("?page=") + 6);
-
-        // 明日はここから始める！！！！！！
-        Connection con = Jsoup.connect(url);
-        Response res = con.response();
-        int status = res.statusCode();
-        System.out.println(status);
 
         // カテゴリーの取得
         Element elCategory = docTop.select("div.wrapper > ul.breadcrumb").get(0);
@@ -59,10 +50,11 @@ public class Question4 {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             String rootUrl = "https://news.mynavi.jp/list/headline/business/technology/semiconductor/" + year + "/"
                     + month + "/?page=" + i;
             Document doc = Jsoup.connect(rootUrl).get();
-            Element el = doc.select("div.body > main.main > section.box.box--top.box--line").get(0);
+            Element el = doc.select("main.main > section.box.box--top.box--line").get(0);
 
             for (Element child : el.children()) {
                 if (child.children().size() < 1) {
@@ -88,31 +80,35 @@ public class Question4 {
 
                     // ニュースの本文を取得するためのあれこれ
                     String newsContents = "";
-                    int pageNum = 1;
-                    Document docNews = Jsoup.connect("https://news.mynavi.jp" + link).get();
-                    // ニュースページが複数ある場合のページ数の取得
-                    Element elNewsBody = docNews.select("main.main").get(0);
-                    for (Element childMain : elNewsBody.children()) {
-                        if (childMain.attr("class").equals("gtm")) {
-                            Element elGetNewsPage = childMain.select("div.paginate").get(0);
-                            String newsPage = elGetNewsPage.child(0).select("a.paginate__last").attr("href");
-                            pageNum = Integer.parseInt(newsPage.substring(newsPage.length() - 2).replace("/", ""));
+                    try {
+                        int pageNum = 1;
+                        Document docNews = Jsoup.connect("https://news.mynavi.jp" + link).get();
+                        // ニュースページが複数ある場合のページ数の取得
+                        Element elNewsBody = docNews.select("main.main").get(0);
+                        for (Element childMain : elNewsBody.children()) {
+                            if (childMain.attr("class").equals("gtm")) {
+                                Element elGetNewsPage = childMain.select("div.paginate").get(0);
+                                String newsPage = elGetNewsPage.child(0).select("a.paginate__last").attr("href");
+                                pageNum = Integer.parseInt(newsPage.substring(newsPage.length() - 2).replace("/", ""));
+                            }
                         }
-                    }
 
-                    // ニュース本文の取得
-                    for (int j = 1; j < pageNum + 1; j++) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        // ニュース本文の取得
+                        for (int j = 1; j < pageNum + 1; j++) {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Document docNewsContents = Jsoup.connect("https://news.mynavi.jp" + link + j).get();
+                            Element elNews = docNewsContents.select("main.main > article.article").get(0);
+                            for (Element para : elNews.children().select("p")) {
+                                newsContents += para.text();
+                                newsContents.replace(",", "、");// 半角カンマを全角カンマに変換
+                            }
                         }
-                        Document docNewsContents = Jsoup.connect("https://news.mynavi.jp" + link + j).get();
-                        Element elNews = docNewsContents.select("main.main > article.article").get(0);
-                        for (Element para : elNews.children().select("p")) {
-                            newsContents += para.text();
-                            newsContents.replace(",", "、");// 半角カンマを全角カンマに変換
-                        }
+                    } catch (IOException e) {
+                        newsContents = "取得できませんでした";// エラーが起きて本文が取得できなかった時
                     }
 
                     System.out.println(newsContents);
