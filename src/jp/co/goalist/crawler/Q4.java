@@ -42,6 +42,12 @@ public class Q4 {
                 String rootUrlpage = rootUrl +"?page="+(i);
             try {
                 Document doc = Jsoup.connect(rootUrlpage).get(); // ページの内容を要求し、その内容をDocument型のdocとして取り回していく
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                
                 Element lastPageElem = doc.getElementsByClass("paginate__last").first();
                 // String lastPage = lastPageElem.attr("href");
                 if (lastPageElem == null) {// 最後のページへのところにURLがなかったらbreak
@@ -75,12 +81,6 @@ public class Q4 {
                     infoList.add(articleUrl);
                     articleMap.put(articleUrl, infoList);
 
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
 
             } catch (IOException e) {
@@ -111,6 +111,11 @@ public class Q4 {
 
                 try {
                     Document nakamiDoc = Jsoup.connect(url).get();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     Elements honbunElem = nakamiDoc.select("body > div.wrapper > div.container > div.body > main > article[class= article]");
 
                     String genbun = honbunElem.text();
@@ -122,11 +127,7 @@ public class Q4 {
 
                     honbunMap.put(url, honbun);
 
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                   
 
                 } catch (IOException e) {
                     honbunMap.put(url, "取得できませんでした");
@@ -151,7 +152,7 @@ public class Q4 {
                     br.write(title + "," + category + "," + date + "," + url + "," + honbun);
                     br.newLine();
                 }
-                br.close();
+               
 
             } catch (IOException e) {
                 throw e;
